@@ -1,0 +1,55 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1671\cocoasubrtf200
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww28600\viewh18000\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 /* Box Fit Algorithm\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0  * \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0  * Author: Pranav Jain (pranavj1001@gmail.com)\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0  * Version: 1\
+ * Date: 14 Sept, 2019\
+ * Description: This algorithm aims to solve 3D bin packing problem. \
+ * It uses first fit decreasing packing algorithm as the main logic.\
+ * Also, here it is assumed that there is only one bin available.\
+*/\
+\
+// list of pivots with starting point as (0,0,0)\
+pivots = [(0,0,0)]\
+\
+sort listOfItems according to volume (desc)\
+\
+// maintain lists of items that we could and could not fit in the bin\
+packedItems = []\
+notPackedItems = []\
+\
+for (item of listOfItems) \{\
+\
+    for (currentPivot of pivots) \{\
+\
+	// perform rotations if necessary\
+        if (item fits in bin) \{\
+	    packedItems.push(item);\
+	    pivots.remove(currentPivot);\
+	    pivots.push(item.frontLeftLowerCorner);\
+	    pivots.push(item.backTopUpperCorner);\
+	    pivots.push(item.frontRightLowerCorner);\
+	    break;\
+	\}\
+    \}\
+\
+    If (item not in packedItems) \{\
+	notPackedItems.push(item);\
+    \}\
+\}\
+\
+\
+\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0 \
+}
