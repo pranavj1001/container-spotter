@@ -73,6 +73,8 @@ maxPivotZCoordinate = 0;
 packedItems = [];
 notPackedItems = [];
 
+// function which decides whether an item fits 
+// in the bin w.r.t. the pivot
 const doesItemFit = (pivot, item) => {
     // TODO P3: perform item rotations
     // TODO P2: add three condition to check for max possible length available
@@ -83,6 +85,36 @@ const doesItemFit = (pivot, item) => {
         } else {
             return true;   
         }
+};
+
+const checkIfPivotCanBeAdded = (pivotType, item, currentPivot) => {
+    switch(pivotType) {
+        case PivotType.FRONT_LEFT_LOWER_CORNER:
+            for (const pivot of pivots) {
+                if (pivot.xCoordinate === currentPivot.xCoordinate && 
+                    pivot.yCoordinate === currentPivot.yCoordinate) {
+                        return false;
+                }
+            }
+            break;
+        case PivotType.BACK_TOP_UPPER_CORNER:
+            for (const pivot of pivots) {
+                if (pivot.xCoordinate === currentPivot.xCoordinate && 
+                    pivot.zCoordinate === currentPivot.zCoordinate) {
+                        return false;
+                }
+            }
+            break;
+        case PivotType.FRONT_RIGHT_LOWER_CORNER:
+            for (const pivot of pivots) {
+                if (pivot.zCoordinate === currentPivot.zCoordinate && 
+                    pivot.yCoordinate === currentPivot.yCoordinate) {
+                        return false;
+                }
+            }
+            break;
+    }
+    return true;
 };
 
 for (let item of listOfItems) {
@@ -98,23 +130,28 @@ for (let item of listOfItems) {
             maxPivotXCoordinate = 0;
             maxPivotYCoordinate = 0;
             maxPivotZCoordinate = 0;
-            pivots.push({
-                xCoordinate: pivot.xCoordinate,
-                yCoordinate: pivot.yCoordinate,
-                zCoordinate: pivot.zCoordinate + item.height
-            });
-            pivots.push({
-                xCoordinate: pivot.xCoordinate,
-                yCoordinate: pivot.yCoordinate + item.breadth,
-                zCoordinate: pivot.zCoordinate
-            });
-            pivots.push({
-                xCoordinate: pivot.xCoordinate + item.length,
-                yCoordinate: pivot.yCoordinate,
-                zCoordinate: pivot.zCoordinate
-            });
+            if (checkIfPivotCanBeAdded(PivotType.FRONT_LEFT_LOWER_CORNER, item, currentPivot)) {
+                pivots.push({
+                    xCoordinate: pivot.xCoordinate,
+                    yCoordinate: pivot.yCoordinate,
+                    zCoordinate: pivot.zCoordinate + item.height
+                });
+            }
+            if (checkIfPivotCanBeAdded(PivotType.BACK_TOP_UPPER_CORNER, item, currentPivot)) {
+                pivots.push({
+                    xCoordinate: pivot.xCoordinate,
+                    yCoordinate: pivot.yCoordinate + item.breadth,
+                    zCoordinate: pivot.zCoordinate
+                });
+            }
+            if (checkIfPivotCanBeAdded(PivotType.FRONT_RIGHT_LOWER_CORNER, item, currentPivot)) {
+                pivots.push({
+                    xCoordinate: pivot.xCoordinate + item.length,
+                    yCoordinate: pivot.yCoordinate,
+                    zCoordinate: pivot.zCoordinate
+                });
+            }
             pivots.splice(counter, 1);
-            // TODO P1: remove the smaller pivot out of two which have same any two co-ordinates
             break;
         }
         counter++;
@@ -123,6 +160,12 @@ for (let item of listOfItems) {
     if (itemNotPacked) {
         notPackedItems.push(item);
     }
+}
+
+const PivotType = {
+    FRONT_LEFT_LOWER_CORNER: 1,
+    BACK_TOP_UPPER_CORNER: 2,
+    FRONT_RIGHT_LOWER_CORNER: 3
 }
 
 console.log(packedItems, notPackedItems);
