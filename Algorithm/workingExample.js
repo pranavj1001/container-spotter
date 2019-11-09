@@ -84,22 +84,53 @@ notPackedItems = [];
 // in the bin w.r.t. the pivot
 const doesItemFit = (pivot, item, pivots) => {
     // TODO P3: perform item rotations
-    // TODO P2: add three condition to check for max possible length available
-    maxLength = 0;
-    maxBreadth = 0;
-    maxHeight = 0;
-    calculateMaxPossibleDimensions(maxLength, maxBreadth, maxHeight, pivots);
-    if (item.length + pivot.xCoordinate > bin.length ||
-        item.breadth + pivot.yCoordinate > bin.breadth ||
-        item.height + pivot.zCoordinate > bin.height) {
+    const maxDimensionsPossible = calculateMaxPossibleDimensions(pivot, pivots);
+    maxLength = maxDimensionsPossible.length;
+    maxBreadth = maxDimensionsPossible.breadth;
+    maxHeight = maxDimensionsPossible.height;
+    if (item.length + pivot.xCoordinate > maxLength ||
+        item.breadth + pivot.yCoordinate > maxBreadth ||
+        item.height + pivot.zCoordinate > maxHeight) {
             return false;
         } else {
             return true;   
         }
 };
 
-const calculateMaxPossibleDimensions = () => {
+const calculateMaxPossibleDimensions = (currentPivot, pivots) => {
+    // TODO: Improve this function to check for pivots which are not in the same line also
+    const maxDimensionsPossible = {
+        length: bin.length,
+        breadth: bin.breadth,
+        height: bin.height
+    };
+    for (const pivot of pivots) {
+        if (!(pivot.xCoordinate === currentPivot.xCoordinate &&
+            pivot.yCoordinate === currentPivot.yCoordinate &&
+            pivot.zCoordinate === currentPivot.zCoordinate)) {
 
+                if (pivot.xCoordinate === currentPivot.xCoordinate &&
+                    pivot.yCoordinate > currentPivot.yCoordinate &&
+                    pivot.zCoordinate > currentPivot.zCoordinate) {
+                        maxDimensionsPossible.height = pivot.zCoordinate - currentPivot.zCoordinate;
+                } 
+                // else if 
+                //     (pivot.yCoordinate === currentPivot.yCoordinate &&
+                //     pivot.zCoordinate > currentPivot.zCoordinate &&
+                //     pivot.xCoordinate > currentPivot.xCoordinate) {
+                //         maxDimensionsPossible.breadth = pivot.yCoordinate - currentPivot.yCoordinate;
+                // } 
+                else if 
+                    (pivot.zCoordinate === currentPivot.zCoordinate &&
+                    pivot.yCoordinate > currentPivot.yCoordinate &&
+                    pivot.xCoordinate > currentPivot.xCoordinate) {
+                        maxDimensionsPossible.length = pivot.xCoordinate - currentPivot.xCoordinate;
+                }
+
+            }
+    }
+
+    return maxDimensionsPossible;
 };
 
 const removePivotsInSameLine = (pivots) => {
