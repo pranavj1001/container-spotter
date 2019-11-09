@@ -82,9 +82,13 @@ notPackedItems = [];
 
 // function which decides whether an item fits 
 // in the bin w.r.t. the pivot
-const doesItemFit = (pivot, item) => {
+const doesItemFit = (pivot, item, pivots) => {
     // TODO P3: perform item rotations
     // TODO P2: add three condition to check for max possible length available
+    maxLength = 0;
+    maxBreadth = 0;
+    maxHeight = 0;
+    calculateMaxPossibleDimensions(maxLength, maxBreadth, maxHeight, pivots);
     if (item.length + pivot.xCoordinate > bin.length ||
         item.breadth + pivot.yCoordinate > bin.breadth ||
         item.height + pivot.zCoordinate > bin.height) {
@@ -94,37 +98,8 @@ const doesItemFit = (pivot, item) => {
         }
 };
 
-const checkIfPivotCanBeAdded = (pivotType, item, currentPivot) => {
-    switch(pivotType) {
-        case PivotType.FRONT_LEFT_LOWER_CORNER:
-            for (const pivot of pivots) {
-                if (pivot.xCoordinate === currentPivot.xCoordinate && 
-                    pivot.yCoordinate === currentPivot.yCoordinate) {
-                        pivot.zCoordinate += item.height;
-                        return false;
-                }
-            }
-            break;
-        case PivotType.BACK_TOP_UPPER_CORNER:
-            for (const pivot of pivots) {
-                if (pivot.xCoordinate === currentPivot.xCoordinate && 
-                    pivot.zCoordinate === currentPivot.zCoordinate) {
-                        pivot.yCoordinate += item.breadth;
-                        return false;
-                }
-            }
-            break;
-        case PivotType.FRONT_RIGHT_LOWER_CORNER:
-            for (const pivot of pivots) {
-                if (pivot.zCoordinate === currentPivot.zCoordinate && 
-                    pivot.yCoordinate === currentPivot.yCoordinate) {
-                        pivot.xCoordinate += item.length;
-                        return false;
-                }
-            }
-            break;
-    }
-    return true;
+const calculateMaxPossibleDimensions = () => {
+
 };
 
 const removePivotsInSameLine = (pivots) => {
@@ -167,7 +142,7 @@ for (let item of listOfItems) {
     counter = 0;
     for (const pivot of pivots) {
         debugger;
-        if (doesItemFit(pivot, item)) {
+        if (doesItemFit(pivot, item, pivots)) {
             item.pivotPosition = pivot;
             packedItems.push(item);
             itemNotPacked = false;
