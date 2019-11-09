@@ -63,11 +63,18 @@ console.log(listOfItems);
 const pivots = [{
     xCoordinate: 0,
     yCoordinate: 0,
-    zCoordinate: 0
+    zCoordinate: 0,
+    origin: true
 }];
 maxPivotXCoordinate = 0;
 maxPivotYCoordinate = 0;
 maxPivotZCoordinate = 0;
+
+const PivotType = {
+    FRONT_LEFT_LOWER_CORNER: 1,
+    BACK_TOP_UPPER_CORNER: 2,
+    FRONT_RIGHT_LOWER_CORNER: 3
+}
 
 // list of packed and not packed items
 packedItems = [];
@@ -93,6 +100,7 @@ const checkIfPivotCanBeAdded = (pivotType, item, currentPivot) => {
             for (const pivot of pivots) {
                 if (pivot.xCoordinate === currentPivot.xCoordinate && 
                     pivot.yCoordinate === currentPivot.yCoordinate) {
+                        pivot.zCoordinate += item.height;
                         return false;
                 }
             }
@@ -101,6 +109,7 @@ const checkIfPivotCanBeAdded = (pivotType, item, currentPivot) => {
             for (const pivot of pivots) {
                 if (pivot.xCoordinate === currentPivot.xCoordinate && 
                     pivot.zCoordinate === currentPivot.zCoordinate) {
+                        pivot.yCoordinate += item.breadth;
                         return false;
                 }
             }
@@ -109,12 +118,17 @@ const checkIfPivotCanBeAdded = (pivotType, item, currentPivot) => {
             for (const pivot of pivots) {
                 if (pivot.zCoordinate === currentPivot.zCoordinate && 
                     pivot.yCoordinate === currentPivot.yCoordinate) {
+                        pivot.xCoordinate += item.length;
                         return false;
                 }
             }
             break;
     }
     return true;
+};
+
+const removePivotsInSameLine = (pivots) {
+    
 };
 
 for (let item of listOfItems) {
@@ -130,28 +144,26 @@ for (let item of listOfItems) {
             maxPivotXCoordinate = 0;
             maxPivotYCoordinate = 0;
             maxPivotZCoordinate = 0;
-            if (checkIfPivotCanBeAdded(PivotType.FRONT_LEFT_LOWER_CORNER, item, currentPivot)) {
-                pivots.push({
-                    xCoordinate: pivot.xCoordinate,
-                    yCoordinate: pivot.yCoordinate,
-                    zCoordinate: pivot.zCoordinate + item.height
-                });
-            }
-            if (checkIfPivotCanBeAdded(PivotType.BACK_TOP_UPPER_CORNER, item, currentPivot)) {
-                pivots.push({
-                    xCoordinate: pivot.xCoordinate,
-                    yCoordinate: pivot.yCoordinate + item.breadth,
-                    zCoordinate: pivot.zCoordinate
-                });
-            }
-            if (checkIfPivotCanBeAdded(PivotType.FRONT_RIGHT_LOWER_CORNER, item, currentPivot)) {
-                pivots.push({
-                    xCoordinate: pivot.xCoordinate + item.length,
-                    yCoordinate: pivot.yCoordinate,
-                    zCoordinate: pivot.zCoordinate
-                });
-            }
+            pivots.push({
+                xCoordinate: pivot.xCoordinate,
+                yCoordinate: pivot.yCoordinate,
+                zCoordinate: pivot.zCoordinate + item.height,
+                origin: false
+            });
+            pivots.push({
+                xCoordinate: pivot.xCoordinate,
+                yCoordinate: pivot.yCoordinate + item.breadth,
+                zCoordinate: pivot.zCoordinate,
+                origin: false
+            });
+            pivots.push({
+                xCoordinate: pivot.xCoordinate + item.length,
+                yCoordinate: pivot.yCoordinate,
+                zCoordinate: pivot.zCoordinate,
+                origin: false
+            });
             pivots.splice(counter, 1);
+            removePivotsInSameLine(pivots);
             break;
         }
         counter++;
@@ -160,12 +172,6 @@ for (let item of listOfItems) {
     if (itemNotPacked) {
         notPackedItems.push(item);
     }
-}
-
-const PivotType = {
-    FRONT_LEFT_LOWER_CORNER: 1,
-    BACK_TOP_UPPER_CORNER: 2,
-    FRONT_RIGHT_LOWER_CORNER: 3
 }
 
 console.log(packedItems, notPackedItems);
