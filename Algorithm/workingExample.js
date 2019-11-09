@@ -127,8 +127,38 @@ const checkIfPivotCanBeAdded = (pivotType, item, currentPivot) => {
     return true;
 };
 
-const removePivotsInSameLine = (pivots) {
-    
+const removePivotsInSameLine = (pivots) => {
+    for (let i = 0; i < pivots.length - 1; i++) {
+        for (let j = i + 1; j < pivots.length; j++) {
+            pivotA = pivots[i];
+            pivotB = pivots[j];
+
+            if (pivotA.xCoordinate === pivotB.xCoordinate && 
+                pivotA.yCoordinate === pivotB.yCoordinate) {
+                   if (pivotA.zCoordinate > pivotB.zCoordinate) {
+                       pivots.splice(i, 1);
+                   } else {
+                       pivots.splice(j, 1);
+                   }
+            } else if (
+                pivotA.xCoordinate === pivotB.xCoordinate && 
+                pivotA.zCoordinate === pivotB.zCoordinate) {
+                    if (pivotA.yCoordinate > pivotB.yCoordinate) {
+                        pivots.splice(i, 1);
+                    } else {
+                        pivots.splice(j, 1);
+                    }
+            } else if(
+                pivotA.zCoordinate === pivotB.zCoordinate && 
+                pivotA.yCoordinate === pivotB.yCoordinate) {
+                    if (pivotA.xCoordinate > pivotB.xCoordinate) {
+                        pivots.splice(i, 1);
+                    } else {
+                        pivots.splice(j, 1);
+                    }
+            } 
+        }
+    }
 };
 
 for (let item of listOfItems) {
