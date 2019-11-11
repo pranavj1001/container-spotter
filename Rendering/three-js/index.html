@@ -10,16 +10,26 @@
 		<script src="js/three.js"></script>
 		<script>
 			var scene = new THREE.Scene();
+			scene.background = new THREE.Color(0x808080);
 			var camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
 
 			var renderer = new THREE.WebGLRenderer();
 			renderer.setSize( window.innerWidth, window.innerHeight );
 			document.body.appendChild( renderer.domElement );
 
-			var geometry = new THREE.BoxGeometry( 1, 1, 1 );
-			var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
-			var cube = new THREE.Mesh( geometry, material );
-			scene.add( cube );
+			var containerGeometry = new THREE.BoxGeometry( 5, 2, 2 );
+			var containerMaterial = new THREE.MeshBasicMaterial( { color: 0xcccccc } );
+			var containerEdges = new THREE.EdgesGeometry( containerGeometry );
+			var containerLine = new THREE.LineSegments( containerEdges, new THREE.LineBasicMaterial( { color: 0x111111 } ) );
+			var containerCube = new THREE.Mesh( containerGeometry, containerMaterial );
+			scene.add( containerCube );
+			scene.add( containerLine );
+
+			containerCube.rotation.x += 0.5;
+			containerCube.rotation.y -= 0.75;
+			containerLine.rotation.x += 0.5;
+			containerLine.rotation.y -= 0.75;
+
 
 			camera.position.z = 5;
 
@@ -31,7 +41,7 @@
 
 				renderer.render( scene, camera );
 			};
-			
+
 			renderer.render( scene, camera );
 			// animate();
 		</script>
