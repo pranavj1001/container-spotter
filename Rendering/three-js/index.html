@@ -18,7 +18,39 @@
 			document.body.appendChild( renderer.domElement );
 
 			var containerGeometry = new THREE.BoxGeometry( 5, 2, 2 );
-			var containerMaterial = new THREE.MeshBasicMaterial( { color: 0xcccccc } );
+			var materialArray = [];
+			materialArray.push(new THREE.MeshBasicMaterial({
+				opacity:0,
+				color:0x00cccc,
+				transparent: true
+			}));
+			materialArray.push(new THREE.MeshBasicMaterial({
+				opacity:0.5,
+				color:0xcc00cc,
+				transparent: true
+			}));
+			materialArray.push(new THREE.MeshBasicMaterial({
+				opacity:0,
+				color:0xcccc00,
+				transparent: true
+			}));
+			materialArray.push(new THREE.MeshBasicMaterial({
+				opacity:0.5,
+				color:0xffcccc,
+				transparent: true
+			}));
+			materialArray.push(new THREE.MeshBasicMaterial({
+				opacity:0,
+				color:0xccffcc,
+			transparent: true
+			}));
+			materialArray.push(new THREE.MeshBasicMaterial({
+				opacity:0.5,
+				color:0xccccff,
+				transparent: true
+			}));
+			var containerMaterial = new THREE.MeshFaceMaterial(materialArray);
+			// var containerMaterial = new THREE.MeshBasicMaterial( { color: 0xcccccc } );
 			var containerEdges = new THREE.EdgesGeometry( containerGeometry );
 			var containerLine = new THREE.LineSegments( containerEdges, new THREE.LineBasicMaterial( { color: 0x111111 } ) );
 			var containerCube = new THREE.Mesh( containerGeometry, containerMaterial );
