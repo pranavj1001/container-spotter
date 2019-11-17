@@ -20,39 +20,39 @@
 
 			var containerGeometry = new THREE.BoxGeometry( 20, 8, 8 );
 			var containerMaterial = [];
-			containerMaterial.push(new THREE.MeshPhongMaterial({
-				opacity:0,
+			containerMaterial.push(new THREE.MeshLambertMaterial({
+				opacity:0.1,
 				// color:0xaaaaaa,
 				transparent: true,
 				side: THREE.DoubleSide
 			}));
-			containerMaterial.push(new THREE.MeshPhongMaterial({
-				opacity:0.7,
-				color:0xaaaaaa,
+			containerMaterial.push(new THREE.MeshLambertMaterial({
+				opacity:0.1,
+				// color:0x685799,
 				transparent: true,
 				side: THREE.DoubleSide
 			}));
-			containerMaterial.push(new THREE.MeshPhongMaterial({
-				opacity:0,
+			containerMaterial.push(new THREE.MeshLambertMaterial({
+				opacity:0.1,
 				// color:0xaaaaaa,
 				transparent: true,
 				side: THREE.DoubleSide
 			}));
-			containerMaterial.push(new THREE.MeshPhongMaterial({
+			containerMaterial.push(new THREE.MeshLambertMaterial({
 				opacity:0.7,
-				color:0xaaaaaa,
-				transparent: true,
+				color:0x111122,
+				// transparent: true,
 				side: THREE.DoubleSide
 			}));
-			containerMaterial.push(new THREE.MeshPhongMaterial({
-				opacity:0,
+			containerMaterial.push(new THREE.MeshLambertMaterial({
+				opacity:0.1,
 				// color:0xaaaaaa,
 				transparent: true,
 				side: THREE.DoubleSide
 			}));
-			containerMaterial.push(new THREE.MeshPhongMaterial({
-				opacity:0.7,
-				color:0xaaaaaa,
+			containerMaterial.push(new THREE.MeshLambertMaterial({
+				opacity:0.1,
+				// color:0x685799,
 				transparent: true,
 				side: THREE.DoubleSide
 			}));
@@ -60,25 +60,25 @@
 			var containerEdges = new THREE.EdgesGeometry( containerGeometry );
 			var containerLine = new THREE.LineSegments( containerEdges, new THREE.LineBasicMaterial( { color: 0x111111 } ) );
 			var containerCube = new THREE.Mesh( containerGeometry, containerMaterial );
-			debugger;
+			// debugger;
 			scene.add( containerCube );
 			scene.add( containerLine );
 
 			// directional
-			// var light = new THREE.DirectionalLight( 0xffffff );
-			// light.position.set( 1, 1, 1 );
-			// scene.add( light );
+			var light = new THREE.DirectionalLight( 0xffffff );
+			light.position.set( 1, 1, 1 );
+			scene.add( light );
 
-			// // ambient
-			// var ambient = new THREE.AmbientLight( 0x222222 );
-    		// scene.add( ambient );
+			// ambient
+			var ambient = new THREE.AmbientLight( 0xffffff );
+    		scene.add( ambient );
 
 			// containerCube.rotation.x += 0.5;
 			// containerCube.rotation.y -= 0.75;
 			// containerLine.rotation.x += 0.5;
 			// containerLine.rotation.y -= 0.75;
 
-			camera.position.z = 5;
+			camera.position.z = 25;
 
 			var controls = new THREE.OrbitControls( camera, renderer.domElement );
 			//controls.addEventListener( 'change', render ); // call this only in static scenes (i.e., if there is no animation loop)
