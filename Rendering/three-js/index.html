@@ -19,7 +19,7 @@
 			document.body.appendChild( renderer.domElement );
 
 			var containerGeometry = new THREE.BoxGeometry( 20, 8, 8 );
-			containerGeometry.translate(10, 4, 4);
+			// containerGeometry.translate(10, 4, 4);
 			var containerMaterial = [];
 			containerMaterial.push(new THREE.MeshLambertMaterial({
 				opacity:0.1,
@@ -69,14 +69,19 @@
 
 
 			var boxType1Geometry = new THREE.BoxGeometry( 2, 1, 1 );
-			boxType1Geometry.translate(1, 0.5, 0.5);
+			// boxType1Geometry.translate(
+				// boxType1GeometryX/2 - containerGeometryX/2, 
+				// boxType1GeometryY/2 - containerGeometryY/2,  
+				// boxType1GeometryZ/2 - containerGeometryZ/2, 
+			// );
+			boxType1Geometry.translate(-9, -3.5, -3.5);
 			var boxType1Material = new THREE.MeshBasicMaterial( { color: 0x00ffff } );
 			var boxType1Cube = new THREE.Mesh( boxType1Geometry, boxType1Material );
 			boxType1Cube.position.set(0, 0, 0);
 			// scene.add(boxType1Cube);
 
 			var boxType2Geometry = new THREE.BoxGeometry( 4, 2, 1 );
-			boxType2Geometry.translate(2, 1, 0.5);
+			boxType2Geometry.translate(-8, -3, -3.5);
 			var boxType2Material = new THREE.MeshBasicMaterial( { color: 0xff00ff } );
 			var boxType2Cube = new THREE.Mesh( boxType2Geometry, boxType2Material );
 			boxType2Cube.position.set(0, 0, 1);
@@ -105,8 +110,12 @@
 			// containerCube.rotation.y -= 0.75;
 			// containerLine.rotation.x += 0.5;
 			// containerLine.rotation.y -= 0.75;
-
-			camera.position.z = 25;
+			
+			// camera.translateOnAxis('y', 10);
+			// camera.translateOnAxis('z', 25);
+			camera.position.set(0,0,30);
+			// camera.translateX(10);
+			// camera.setViewOffset(10);
 
 			var controls = new THREE.OrbitControls( camera, renderer.domElement );
 			//controls.addEventListener( 'change', render ); // call this only in static scenes (i.e., if there is no animation loop)
@@ -116,6 +125,8 @@
 			controls.minDistance = 20;
 			controls.maxDistance = 40;
 			controls.maxPolarAngle = Math.PI / 2;
+			// controls.target = new THREE.Vector3(10,0,0);
+			// debugger
 
 			renderer.render( scene, camera );
 			animate();
