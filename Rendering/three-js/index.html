@@ -19,6 +19,7 @@
 			document.body.appendChild( renderer.domElement );
 
 			var containerGeometry = new THREE.BoxGeometry( 20, 8, 8 );
+			containerGeometry.translate(10, 4, 4);
 			var containerMaterial = [];
 			containerMaterial.push(new THREE.MeshLambertMaterial({
 				opacity:0.1,
@@ -60,25 +61,36 @@
 			var containerEdges = new THREE.EdgesGeometry( containerGeometry );
 			var containerLine = new THREE.LineSegments( containerEdges, new THREE.LineBasicMaterial( { color: 0x111111 } ) );
 			var containerCube = new THREE.Mesh( containerGeometry, containerMaterial );
+			containerCube.position.set(0, 0, 0);
+			containerLine.position.set(0, 0, 0);
 			// debugger;
-			scene.add( containerCube );
-			scene.add( containerLine );
+			// scene.add(containerCube);
+			// scene.add(containerLine);
 
 
 			var boxType1Geometry = new THREE.BoxGeometry( 2, 1, 1 );
+			boxType1Geometry.translate(1, 0.5, 0.5);
 			var boxType1Material = new THREE.MeshBasicMaterial( { color: 0x00ffff } );
 			var boxType1Cube = new THREE.Mesh( boxType1Geometry, boxType1Material );
-			scene.add(boxType1Cube);
+			boxType1Cube.position.set(0, 0, 0);
+			// scene.add(boxType1Cube);
 
 			var boxType2Geometry = new THREE.BoxGeometry( 4, 2, 1 );
+			boxType2Geometry.translate(2, 1, 0.5);
 			var boxType2Material = new THREE.MeshBasicMaterial( { color: 0xff00ff } );
 			var boxType2Cube = new THREE.Mesh( boxType2Geometry, boxType2Material );
-			scene.add(boxType2Cube);
+			boxType2Cube.position.set(0, 0, 1);
+			// scene.add(boxType2Cube);
 
-			// var boxType1Geometry = new THREE.BoxGeometry( 2, 1, 1 );
-			// var boxType1Material = new THREE.MeshBasicMaterial( { color: 0x00ffff } );
-			// var boxType1Cube = new THREE.Mesh( boxType1Geometry, boxType1Material );
-			// scene.add(boxType1Cube);
+			//create a group and add the two cubes
+			//These cubes can now be rotated / scaled etc as a group
+			var bin = new THREE.Object3D();
+			bin.add(containerCube);
+			bin.add(containerLine);
+			bin.add(boxType1Cube);
+			bin.add(boxType2Cube);
+
+			scene.add(bin);
 
 			// directional
 			var light = new THREE.DirectionalLight( 0xffffff );
