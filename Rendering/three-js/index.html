@@ -19,54 +19,40 @@
 			document.body.appendChild( renderer.domElement );
 
 			var containerGeometry = new THREE.BoxGeometry( 20, 8, 8 );
-			// containerGeometry.translate(10, 4, 4);
 			var containerMaterial = [];
 			containerMaterial.push(new THREE.MeshLambertMaterial({
 				opacity:0.1,
-				// color:0xaaaaaa,
 				transparent: true,
 				side: THREE.DoubleSide
 			}));
 			containerMaterial.push(new THREE.MeshLambertMaterial({
 				opacity:0.1,
-				// color:0x685799,
 				transparent: true,
 				side: THREE.DoubleSide
 			}));
 			containerMaterial.push(new THREE.MeshLambertMaterial({
 				opacity:0.1,
-				// color:0xaaaaaa,
 				transparent: true,
 				side: THREE.DoubleSide
 			}));
 			containerMaterial.push(new THREE.MeshLambertMaterial({
 				opacity:0.7,
 				color:0x111122,
-				// transparent: true,
 				side: THREE.DoubleSide
 			}));
 			containerMaterial.push(new THREE.MeshLambertMaterial({
 				opacity:0.1,
-				// color:0xaaaaaa,
 				transparent: true,
 				side: THREE.DoubleSide
 			}));
 			containerMaterial.push(new THREE.MeshLambertMaterial({
 				opacity:0.1,
-				// color:0x685799,
 				transparent: true,
 				side: THREE.DoubleSide
 			}));
-			// var containerMaterial = new THREE.MeshBasicMaterial( { color: 0xcccccc } );
 			var containerEdges = new THREE.EdgesGeometry( containerGeometry );
 			var containerLine = new THREE.LineSegments( containerEdges, new THREE.LineBasicMaterial( { color: 0x111111 } ) );
 			var containerCube = new THREE.Mesh( containerGeometry, containerMaterial );
-			containerCube.position.set(0, 0, 0);
-			containerLine.position.set(0, 0, 0);
-			// debugger;
-			// scene.add(containerCube);
-			// scene.add(containerLine);
-
 
 			var boxType1Geometry = new THREE.BoxGeometry( 2, 1, 1 );
 			// boxType1Geometry.translate(
@@ -87,8 +73,7 @@
 			boxType2Cube.position.set(0, 0, 1);
 			// scene.add(boxType2Cube);
 
-			//create a group and add the two cubes
-			//These cubes can now be rotated / scaled etc as a group
+			//create a Object3D and add the two cubes
 			var bin = new THREE.Object3D();
 			bin.add(containerCube);
 			bin.add(containerLine);
@@ -97,36 +82,24 @@
 
 			scene.add(bin);
 
-			// directional
+			// directional light
 			var light = new THREE.DirectionalLight( 0xffffff );
 			light.position.set( 1, 1, 1 );
 			scene.add( light );
 
-			// ambient
+			// ambient light
 			var ambient = new THREE.AmbientLight( 0xffffff );
-    		scene.add( ambient );
-
-			// containerCube.rotation.x += 0.5;
-			// containerCube.rotation.y -= 0.75;
-			// containerLine.rotation.x += 0.5;
-			// containerLine.rotation.y -= 0.75;
+			scene.add( ambient );
 			
-			// camera.translateOnAxis('y', 10);
-			// camera.translateOnAxis('z', 25);
 			camera.position.set(0,0,30);
-			// camera.translateX(10);
-			// camera.setViewOffset(10);
 
 			var controls = new THREE.OrbitControls( camera, renderer.domElement );
-			//controls.addEventListener( 'change', render ); // call this only in static scenes (i.e., if there is no animation loop)
 			controls.enableDamping = true; // an animation loop is required when either damping or auto-rotation are enabled
 			controls.dampingFactor = 0.05;
 			controls.screenSpacePanning = false;
 			controls.minDistance = 20;
 			controls.maxDistance = 40;
 			controls.maxPolarAngle = Math.PI / 2;
-			// controls.target = new THREE.Vector3(10,0,0);
-			// debugger
 
 			renderer.render( scene, camera );
 			animate();
@@ -141,14 +114,7 @@
 
 			function animate() {
 				requestAnimationFrame( animate );
-
-				// containerCube.rotation.x += 0.01;
-				// containerCube.rotation.y += 0.01;
-				// containerLine.rotation.x += 0.01;
-				// containerLine.rotation.y += 0.01;
-
 				controls.update();
-
 				renderer.render( scene, camera );
 			};
 		</script>
