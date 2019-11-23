@@ -9,6 +9,7 @@
 	<body>
 		<script src="js/three.js"></script>
 		<script src="js/OrbitControls.js"></script>
+		<script src="js/spotterLogic.js"></script>
 		<script>
 			var scene = new THREE.Scene();
 			scene.background = new THREE.Color(0x808080);
@@ -18,7 +19,11 @@
 			renderer.setSize( window.innerWidth, window.innerHeight );
 			document.body.appendChild( renderer.domElement );
 
-			var containerGeometry = new THREE.BoxGeometry( 20, 8, 8 );
+			const containerGeometryX = 20;
+			const containerGeometryY = 10;
+			const containerGeometryZ = 10;
+
+			var containerGeometry = new THREE.BoxGeometry( containerGeometryX, containerGeometryY, containerGeometryZ );
 			var containerMaterial = [];
 			containerMaterial.push(new THREE.MeshLambertMaterial({
 				opacity:0.1,
@@ -74,13 +79,30 @@
 			// scene.add(boxType2Cube);
 
 			//create a Object3D and add the two cubes
-			var bin = new THREE.Object3D();
-			bin.add(containerCube);
-			bin.add(containerLine);
-			bin.add(boxType1Cube);
-			bin.add(boxType2Cube);
+			var binObject = new THREE.Object3D();
+			binObject.add(containerCube);
+			binObject.add(containerLine);
 
-			scene.add(bin);
+			for (const item of packedItems) {
+				const itemGeometry = new THREE.BoxGeometry( item.length, item.breadth, item.height );
+				itemGeometry.translate(
+					(item.length - containerGeometryX) / 2,
+					(item.breadth - containerGeometryY) / 2,
+					(item.height - containerGeometryZ) / 2
+				);
+				const itemMaterial = new THREE.MeshBasicMaterial( { color: item.color } );
+				const itemCube = new THREE.Mesh( itemGeometry, itemMaterial );
+				const itemPivot = item.pivotPosition;
+				debugger;
+				itemCube.position.set(itemPivot.xCoordinate, itemPivot.yCoordinate, itemPivot.zCoordinate);
+				binObject.add(itemCube);
+				console.log(item);
+			}
+
+			// binObject.add(boxType1Cube);
+			// binObject.add(boxType2Cube);
+
+			scene.add(binObject);
 
 			// directional light
 			var light = new THREE.DirectionalLight( 0xffffff );
