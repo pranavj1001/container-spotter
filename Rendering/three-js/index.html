@@ -77,15 +77,17 @@
 					(item.breadth - containerGeometryY) / 2,
 					(item.height - containerGeometryZ) / 2
 				);
-				const itemMaterial = new THREE.MeshBasicMaterial( { color: item.color } );
+				const itemMaterial = new THREE.MeshLambertMaterial( { color: item.color } );
 				const itemCube = new THREE.Mesh( itemGeometry, itemMaterial );
 				const itemPivot = item.pivotPosition;
 				itemCube.position.set(itemPivot.xCoordinate, itemPivot.yCoordinate, itemPivot.zCoordinate);
 				binObject.add(itemCube);
-				console.log(item);
 			}
 
 			scene.add(binObject);
+
+			var raycaster = new THREE.Raycaster();
+			var mouse = new THREE.Vector2();
 
 			// directional light
 			var light = new THREE.DirectionalLight( 0xffffff );
@@ -110,6 +112,7 @@
 			animate();
 
 			window.addEventListener( 'resize', onWindowResize, false );
+			window.addEventListener( 'mousemove', onMouseMove, false );
 
 			function onWindowResize() {
 				camera.aspect = window.innerWidth / window.innerHeight;
@@ -117,9 +120,43 @@
 				renderer.setSize( window.innerWidth, window.innerHeight );
 			}
 
+			function onMouseMove( event ) {
+
+				// calculate mouse position in normalized device coordinates
+				// (-1 to +1) for both components
+
+				mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+				mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+
+			}
+			var INTERSECTED;
+
 			function animate() {
 				requestAnimationFrame( animate );
 				controls.update();
+
+				// update the picking ray with the camera and mouse position
+				raycaster.setFromCamera( mouse, camera );
+
+				// calculate objects intersecting the picking ray
+				var intersects = raycaster.intersectObjects( scene.children[0].children.slice(2) );
+
+				// for ( var i = 0; i < intersects.length; i++ ) {
+				// 	intersects[ i ].object.material.color.set( 0xff0000 );
+				// }
+
+				if ( intersects.length > 0 ) {
+					if ( INTERSECTED != intersects[ 0 ].object ) {
+						if ( INTERSECTED ) INTERSECTED.material.emissive.setHex( INTERSECTED.currentHex );
+						INTERSECTED = intersects[ 0 ].object;
+						INTERSECTED.currentHex = INTERSECTED.material.emissive.getHex();
+						INTERSECTED.material.emissive.setHex( 0xffffff );
+					}
+				} else {
+					if ( INTERSECTED ) INTERSECTED.material.emissive.setHex( INTERSECTED.currentHex );
+					INTERSECTED = null;
+				}
+
 				renderer.render( scene, camera );
 			};
 		</script>

@@ -10,7 +10,7 @@
 // Metric system is used here
 // sample bin data
 const bin = {
-    length: 10,
+    length: 20,
     breadth: 10,
     height: 10
 };
