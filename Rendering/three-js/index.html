@@ -59,32 +59,19 @@
 			var containerLine = new THREE.LineSegments( containerEdges, new THREE.LineBasicMaterial( { color: 0x111111 } ) );
 			var containerCube = new THREE.Mesh( containerGeometry, containerMaterial );
 
-			var boxType1Geometry = new THREE.BoxGeometry( 2, 1, 1 );
-			// boxType1Geometry.translate(
-				// boxType1GeometryX/2 - containerGeometryX/2, 
-				// boxType1GeometryY/2 - containerGeometryY/2,  
-				// boxType1GeometryZ/2 - containerGeometryZ/2, 
-			// );
-			boxType1Geometry.translate(-9, -3.5, -3.5);
-			var boxType1Material = new THREE.MeshBasicMaterial( { color: 0x00ffff } );
-			var boxType1Cube = new THREE.Mesh( boxType1Geometry, boxType1Material );
-			boxType1Cube.position.set(0, 0, 0);
-			// scene.add(boxType1Cube);
-
-			var boxType2Geometry = new THREE.BoxGeometry( 4, 2, 1 );
-			boxType2Geometry.translate(-8, -3, -3.5);
-			var boxType2Material = new THREE.MeshBasicMaterial( { color: 0xff00ff } );
-			var boxType2Cube = new THREE.Mesh( boxType2Geometry, boxType2Material );
-			boxType2Cube.position.set(0, 0, 1);
-			// scene.add(boxType2Cube);
-
 			//create a Object3D and add the two cubes
 			var binObject = new THREE.Object3D();
 			binObject.add(containerCube);
 			binObject.add(containerLine);
 
+			// render boxes as per spotting logic
 			for (const item of packedItems) {
 				const itemGeometry = new THREE.BoxGeometry( item.length, item.breadth, item.height );
+				// boxType1Geometry.translate(
+					// boxType1GeometryX/2 - containerGeometryX/2, 
+					// boxType1GeometryY/2 - containerGeometryY/2,  
+					// boxType1GeometryZ/2 - containerGeometryZ/2, 
+				// );
 				itemGeometry.translate(
 					(item.length - containerGeometryX) / 2,
 					(item.breadth - containerGeometryY) / 2,
@@ -93,14 +80,10 @@
 				const itemMaterial = new THREE.MeshBasicMaterial( { color: item.color } );
 				const itemCube = new THREE.Mesh( itemGeometry, itemMaterial );
 				const itemPivot = item.pivotPosition;
-				debugger;
 				itemCube.position.set(itemPivot.xCoordinate, itemPivot.yCoordinate, itemPivot.zCoordinate);
 				binObject.add(itemCube);
 				console.log(item);
 			}
-
-			// binObject.add(boxType1Cube);
-			// binObject.add(boxType2Cube);
 
 			scene.add(binObject);
 
