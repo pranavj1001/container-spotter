@@ -1,0 +1,16 @@
+body { margin: 0; }
+canvas { width: 100%; height: 100% }
+
+#view {
+    height: 100vh;
+}
+
+.toggle-controller {
+    position: absolute;
+    width: 50px;
+    height: 30px;
+    top: 5px;
+    background-color: rgba(50, 50, 50, 0.6);
+    text-align: center;
+    border-radius: 0 7px 7px 0;
+}
