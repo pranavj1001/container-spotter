@@ -10,13 +10,26 @@
 	</head>
 	<body>
 
-		<div id="hideController" class="toggle-controller">X</div>
+		<!-- <div id="hideController" class="toggle-controller">X</div> -->
 		<div class="row">
-				<div id="controller" class="col-md-3">
+				<div id="controller" class="col-md-3 container-spotter-no-padding-div container">
+					<div class="container-spotter-content-div">
+						<h3>Container Spotter</h3>
 
+						<h4>Bin Dimensions</h5>
+						<div class="form-group">
+							<label for="binXCoordinate">Bin Length</label>
+							<input type="text" class="form-control" name="binXCoordinate" id="">
+							<label for="binXCoordinate">Bin Width</label>
+							<input type="text" class="form-control" name="binXCoordinate" id="">
+							<label for="binXCoordinate">Bin Height</label>
+							<input type="text" class="form-control" name="binXCoordinate" id="">
+						</div>
+						<h4>Item Dimensions</h4>
+					</div>
 				</div>
 		
-				<div id="view" class="col-md-9"></div>
+				<div id="view" class="col-md-9 container-spotter-no-padding-div"></div>
 		</div>
 
 		<script src="js/three.js"></script>
