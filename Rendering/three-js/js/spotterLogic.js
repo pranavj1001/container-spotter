@@ -171,45 +171,47 @@ const removePivotsInSameLine = (pivots) => {
     }
 };
 
-for (let item of listOfItems) {
-    item = JSON.parse(JSON.stringify(item));
-    itemNotPacked = true;
-    counter = 0;
-    for (const pivot of pivots) {
-        if (doesItemFit(pivot, item, pivots)) {
-            item.pivotPosition = pivot;
-            packedItems.push(item);
-            itemNotPacked = false;
-            maxPivotXCoordinate = 0;
-            maxPivotYCoordinate = 0;
-            maxPivotZCoordinate = 0;
-            pivots.push({
-                xCoordinate: pivot.xCoordinate,
-                yCoordinate: pivot.yCoordinate,
-                zCoordinate: pivot.zCoordinate + item.height,
-                origin: false
-            });
-            pivots.push({
-                xCoordinate: pivot.xCoordinate,
-                yCoordinate: pivot.yCoordinate + item.breadth,
-                zCoordinate: pivot.zCoordinate,
-                origin: false
-            });
-            pivots.push({
-                xCoordinate: pivot.xCoordinate + item.length,
-                yCoordinate: pivot.yCoordinate,
-                zCoordinate: pivot.zCoordinate,
-                origin: false
-            });
-            pivots.splice(counter, 1);
-            removePivotsInSameLine(pivots);
-            break;
+const packItems = () => {
+    for (let item of listOfItems) {
+        item = JSON.parse(JSON.stringify(item));
+        itemNotPacked = true;
+        counter = 0;
+        for (const pivot of pivots) {
+            if (doesItemFit(pivot, item, pivots)) {
+                item.pivotPosition = pivot;
+                packedItems.push(item);
+                itemNotPacked = false;
+                maxPivotXCoordinate = 0;
+                maxPivotYCoordinate = 0;
+                maxPivotZCoordinate = 0;
+                pivots.push({
+                    xCoordinate: pivot.xCoordinate,
+                    yCoordinate: pivot.yCoordinate,
+                    zCoordinate: pivot.zCoordinate + item.height,
+                    origin: false
+                });
+                pivots.push({
+                    xCoordinate: pivot.xCoordinate,
+                    yCoordinate: pivot.yCoordinate + item.breadth,
+                    zCoordinate: pivot.zCoordinate,
+                    origin: false
+                });
+                pivots.push({
+                    xCoordinate: pivot.xCoordinate + item.length,
+                    yCoordinate: pivot.yCoordinate,
+                    zCoordinate: pivot.zCoordinate,
+                    origin: false
+                });
+                pivots.splice(counter, 1);
+                removePivotsInSameLine(pivots);
+                break;
+            }
+            counter++;
         }
-        counter++;
-    }
-
-    if (itemNotPacked) {
-        notPackedItems.push(item);
+    
+        if (itemNotPacked) {
+            notPackedItems.push(item);
+        }
     }
 }
 
