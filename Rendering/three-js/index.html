@@ -26,6 +26,9 @@
 							<input type="text" class="form-control" name="binXCoordinate" id="">
 						</div>
 						<h4>Item Dimensions</h4>
+
+						<hr>
+						<button class="btn btn-primary" onclick="renderItems()">Pack</button>
 					</div>
 				</div>
 		
@@ -88,26 +91,6 @@
 			var binObject = new THREE.Object3D();
 			binObject.add(containerCube);
 			binObject.add(containerLine);
-
-			// render boxes as per spotting logic
-			for (const item of packedItems) {
-				const itemGeometry = new THREE.BoxGeometry( item.length, item.breadth, item.height );
-				// boxType1Geometry.translate(
-					// boxType1GeometryX/2 - containerGeometryX/2, 
-					// boxType1GeometryY/2 - containerGeometryY/2,  
-					// boxType1GeometryZ/2 - containerGeometryZ/2, 
-				// );
-				itemGeometry.translate(
-					(item.length - containerGeometryX) / 2,
-					(item.breadth - containerGeometryY) / 2,
-					(item.height - containerGeometryZ) / 2
-				);
-				const itemMaterial = new THREE.MeshLambertMaterial( { color: item.color } );
-				const itemCube = new THREE.Mesh( itemGeometry, itemMaterial );
-				const itemPivot = item.pivotPosition;
-				itemCube.position.set(itemPivot.xCoordinate, itemPivot.yCoordinate, itemPivot.zCoordinate);
-				binObject.add(itemCube);
-			}
 
 			scene.add(binObject);
 
@@ -200,6 +183,50 @@
 
 				renderer.render( scene, camera );
 			};
+
+			var cubes = [];
+			function renderItems() {
+				// if items are atleast packed once
+				// then remove packed items form binObject
+				if (cubes.length > 0) {
+					for (const cube of cubes) {
+						var counter = 0;
+						for (const item of binObject.children) {
+							console.log(item, cube);
+							if (cube.uuid === item.uuid) {
+								binObject.children.splice(counter, 1);
+								break;
+							}
+							counter++;
+						}
+					}
+					cubes = [];
+					packedItems = [];
+				}
+
+				packItems();
+				// render boxes as per spotting logic
+				for (const item of packedItems) {
+					const itemGeometry = new THREE.BoxGeometry( item.length, item.breadth, item.height );
+					// boxType1Geometry.translate(
+						// boxType1GeometryX/2 - containerGeometryX/2, 
+						// boxType1GeometryY/2 - containerGeometryY/2,  
+						// boxType1GeometryZ/2 - containerGeometryZ/2, 
+					// );
+					itemGeometry.translate(
+						(item.length - containerGeometryX) / 2,
+						(item.breadth - containerGeometryY) / 2,
+						(item.height - containerGeometryZ) / 2
+					);
+					const itemMaterial = new THREE.MeshLambertMaterial( { color: item.color } );
+					const itemCube = new THREE.Mesh( itemGeometry, itemMaterial );
+					const itemPivot = item.pivotPosition;
+					itemCube.position.set(itemPivot.xCoordinate, itemPivot.yCoordinate, itemPivot.zCoordinate);
+					binObject.add(itemCube);
+					cubes.push(itemCube);
+				}
+
+			}
 		</script>
 	</body>
 </html>
