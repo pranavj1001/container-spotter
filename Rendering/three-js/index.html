@@ -124,8 +124,9 @@
 			scene.add( ambient );
 			
 			camera.position.set(0,0,30);
+			renderer.render( scene, camera );
 
-			var controls = new THREE.OrbitControls( camera, renderer.domElement );
+			var controls = new THREE.OrbitControls( camera, viewContainer );
 			controls.enableDamping = true; // an animation loop is required when either damping or auto-rotation are enabled
 			controls.dampingFactor = 0.05;
 			controls.screenSpacePanning = false;
@@ -133,11 +134,26 @@
 			controls.maxDistance = 40;
 			controls.maxPolarAngle = Math.PI / 2;
 
-			renderer.render( scene, camera );
 			animate();
 
 			window.addEventListener( 'resize', onWindowResize, false );
+			// document.getElementById('controller').addEventListener( 'click', handleClickEvents, false );
+			document.getElementById('controller').addEventListener( 'mousedown', handleClickEvents, false );
+			// document.getElementById('controller').addEventListener( 'mouseup', handleClickEvents, false );
 			viewContainer.addEventListener( 'mousemove', onMouseMove, false );
+			var focusedElement;
+			function handleClickEvents(event) {
+				var element = event.target || event.srcElement
+				if (element !== renderer.domElement) {
+					event.stopPropagation();
+					event.preventDefault();
+					if (element.tagName === 'INPUT') {
+						element.focus();
+					} else {
+						document.activeElement.blur();
+					}
+				}
+			}
 
 			function onWindowResize() {
 				camera.aspect = viewContainer.offsetWidth / viewContainer.offsetHeight;
