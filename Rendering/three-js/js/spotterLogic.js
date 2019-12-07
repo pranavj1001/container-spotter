@@ -9,7 +9,7 @@
 
 // Metric system is used here
 // sample bin data
-const bin = {
+let bin = {
     length: 20,
     breadth: 10,
     height: 10

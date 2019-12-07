@@ -19,11 +19,11 @@
 						<h4>Bin Dimensions</h5>
 						<div class="form-group">
 							<label for="binXCoordinate">Bin Length</label>
-							<input type="text" class="form-control" name="binXCoordinate" id="">
-							<label for="binXCoordinate">Bin Width</label>
-							<input type="text" class="form-control" name="binXCoordinate" id="">
-							<label for="binXCoordinate">Bin Height</label>
-							<input type="text" class="form-control" name="binXCoordinate" id="">
+							<input type="number" class="form-control" name="binXCoordinate" id="binXCoordinate">
+							<label for="binYCoordinate">Bin Width</label>
+							<input type="number" class="form-control" name="binYCoordinate" id="binYCoordinate">
+							<label for="binZCoordinate">Bin Height</label>
+							<input type="number" class="form-control" name="binZCoordinate" id="binZCoordinate">
 						</div>
 						<h4>Item Dimensions</h4>
 
@@ -47,9 +47,9 @@
 			viewContainer.appendChild( renderer.domElement );
 			var camera = new THREE.PerspectiveCamera( 75, viewContainer.offsetWidth/viewContainer.offsetHeight, 0.1, 1000 );
 
-			const containerGeometryX = 20;
-			const containerGeometryY = 10;
-			const containerGeometryZ = 10;
+			let containerGeometryX = 20;
+			let containerGeometryY = 10;
+			let containerGeometryZ = 10;
 
 			var containerGeometry = new THREE.BoxGeometry( containerGeometryX, containerGeometryY, containerGeometryZ );
 			var containerMaterial = [];
@@ -186,13 +186,31 @@
 
 			var cubes = [];
 			function renderItems() {
+
+				containerGeometry.dispose();
+				containerEdges.dispose();
+
+				containerGeometryX = parseFloat(document.getElementById('binXCoordinate').value) || 20;
+				containerGeometryY = parseFloat(document.getElementById('binYCoordinate').value) || 10;
+				containerGeometryZ = parseFloat(document.getElementById('binZCoordinate').value) || 10;
+
+				var newContainerGeometry = new THREE.BoxGeometry( containerGeometryX, containerGeometryY, containerGeometryZ );
+				var newContainerEdges = new THREE.EdgesGeometry( newContainerGeometry );
+				containerCube.geometry = newContainerGeometry;
+				containerLine.geometry = newContainerEdges;
+
+				bin = {
+					length: containerGeometryX,
+					breadth: containerGeometryY,
+					height: containerGeometryZ
+				};
+
 				// if items are atleast packed once
 				// then remove packed items form binObject
 				if (cubes.length > 0) {
 					for (const cube of cubes) {
 						var counter = 0;
 						for (const item of binObject.children) {
-							console.log(item, cube);
 							if (cube.uuid === item.uuid) {
 								binObject.children.splice(counter, 1);
 								break;
