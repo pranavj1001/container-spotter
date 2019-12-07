@@ -64,7 +64,7 @@ listOfItems.sort((a, b) => (a.volume > b.volume) ? -1 : ((a.volume < b.volume) ?
 // console.log(listOfItems);
 
 // pivot
-const pivots = [{
+let pivots = [{
     xCoordinate: 0,
     yCoordinate: 0,
     zCoordinate: 0,
