@@ -35,8 +35,83 @@
 							</div>
 						</div>
 						<h4 class="display-inline-block">Item Details</h4>
-						<button class="btn btn-primary container-spotter-add-item-button" title="Add item">&#43;</button>
+						<button class="btn btn-primary container-spotter-add-item-button" onclick="addItemBlock()" title="Add item">&#43;</button>
 						<hr class="container-spotter-basic-hr">
+						<!-- item 1 -->
+						<div class="row">
+							<div class="col-lg-4 container-spotter-input-label-block">
+								<label for="item1XCoordinate">Length</label>
+								<input type="number" class="form-control" name="item1XCoordinate" id="item1XCoordinate">
+							</div>
+							<div class="col-lg-4 container-spotter-input-label-block">
+								<label for="item1YCoordinate">Width</label>
+								<input type="number" class="form-control" name="item1YCoordinate" id="item1YCoordinate">
+							</div>
+							<div class="col-lg-4 container-spotter-input-label-block">
+								<label for="item1ZCoordinate">Height</label>
+								<input type="number" class="form-control" name="item1ZCoordinate" id="item1ZCoordinate">
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-lg-6 container-spotter-input-label-block">
+								<label for="item1Quantity">Quantity</label>
+								<input type="number" class="form-control" name="item1Quantity" id="item1Quantity">
+							</div>
+							<div class="col-lg-6 container-spotter-input-label-block">
+								<label for="item1Color">Box Color</label>
+								<input type="text" class="form-control" name="item1Color" id="item1Color">
+							</div>
+						</div>
+						<!-- item 2 -->
+						<div class="row">
+							<div class="col-lg-4 container-spotter-input-label-block">
+								<label for="item2XCoordinate">Length</label>
+								<input type="number" class="form-control" name="item2XCoordinate" id="item2XCoordinate">
+							</div>
+							<div class="col-lg-4 container-spotter-input-label-block">
+								<label for="item2YCoordinate">Width</label>
+								<input type="number" class="form-control" name="item2YCoordinate" id="item2YCoordinate">
+							</div>
+							<div class="col-lg-4 container-spotter-input-label-block">
+								<label for="item2ZCoordinate">Height</label>
+								<input type="number" class="form-control" name="item2ZCoordinate" id="item2ZCoordinate">
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-lg-6 container-spotter-input-label-block">
+								<label for="item2Quantity">Quantity</label>
+								<input type="number" class="form-control" name="item2Quantity" id="item2Quantity">
+							</div>
+							<div class="col-lg-6 container-spotter-input-label-block">
+								<label for="item2Color">Box Color</label>
+								<input type="text" class="form-control" name="item2Color" id="item2Color">
+							</div>
+						</div>
+						<!-- item 1 -->
+						<div class="row">
+							<div class="col-lg-4 container-spotter-input-label-block">
+								<label for="item3XCoordinate">Length</label>
+								<input type="number" class="form-control" name="item3XCoordinate" id="item3XCoordinate">
+							</div>
+							<div class="col-lg-4 container-spotter-input-label-block">
+								<label for="item3YCoordinate">Width</label>
+								<input type="number" class="form-control" name="item3YCoordinate" id="item3YCoordinate">
+							</div>
+							<div class="col-lg-4 container-spotter-input-label-block">
+								<label for="item3ZCoordinate">Height</label>
+								<input type="number" class="form-control" name="item3ZCoordinate" id="item3ZCoordinate">
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-lg-6 container-spotter-input-label-block">
+								<label for="item3Quantity">Quantity</label>
+								<input type="number" class="form-control" name="item3Quantity" id="item3Quantity">
+							</div>
+							<div class="col-lg-6 container-spotter-input-label-block">
+								<label for="item3Color">Box Color</label>
+								<input type="text" class="form-control" name="item3Color" id="item3Color">
+							</div>
+						</div>
 						<button class="btn btn-primary" onclick="renderItems()">Pack</button>
 					</div>
 				</div>
@@ -195,6 +270,7 @@
 
 			function addItemBlock() {
 				// TODO: implement this function
+				console.log('add item');
 			}
 
 			var cubes = [];
