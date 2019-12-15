@@ -17,7 +17,7 @@ let bin = {
 bin.volume = bin.length * bin.breadth * bin.height;
 
 // sample items data
-const data = [{
+let data = [{
     name: 'box1',
     length: 2,
     breadth: 3,
@@ -48,19 +48,22 @@ const data = [{
 }];
 
 // prepare sorted (desc) listOfItems from data
-const listOfItems = [];
+let listOfItems = [];
 let totalItemsVolume = 0;
-for (let item of data) {
-    item = JSON.parse(JSON.stringify(item));
-    item.volume = item.length * item.breadth * item.height;
-    totalItemsVolume += item.volume * item.quantity;
-    for (let i = 0; i < item.quantity; i++) {
-        item.id = item.name + i.toString();
-
-        listOfItems.push(item);
+const prepareListOfItems = (data) => {
+    for (let item of data) {
+        item = JSON.parse(JSON.stringify(item));
+        item.volume = item.length * item.breadth * item.height;
+        totalItemsVolume += item.volume * item.quantity;
+        for (let i = 0; i < item.quantity; i++) {
+            item.id = item.name + i.toString();
+    
+            listOfItems.push(item);
+        }
     }
-}
-listOfItems.sort((a, b) => (a.volume > b.volume) ? -1 : ((a.volume < b.volume) ? 1 : 0));
+    listOfItems.sort((a, b) => (a.volume > b.volume) ? -1 : ((a.volume < b.volume) ? 1 : 0));
+};
+prepareListOfItems(data);
 // console.log(listOfItems);
 
 // pivot
