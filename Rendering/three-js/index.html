@@ -25,12 +25,12 @@
 									<input type="number" class="form-control" name="binXCoordinate" id="binXCoordinate" placeholder=20>
 								</div>
 								<div class="col-lg-4 container-spotter-input-label-block">
-									<label for="binYCoordinate">Width</label>
-									<input type="number" class="form-control" name="binYCoordinate" id="binYCoordinate" placeholder=10>
+									<label for="binZCoordinate">Width</label>
+									<input type="number" class="form-control" name="binZCoordinate" id="binZCoordinate" placeholder=10>
 								</div>
 								<div class="col-lg-4 container-spotter-input-label-block">
-									<label for="binZCoordinate">Height</label>
-									<input type="number" class="form-control" name="binZCoordinate" id="binZCoordinate" placeholder=10>
+									<label for="binYCoordinate">Height</label>
+									<input type="number" class="form-control" name="binYCoordinate" id="binYCoordinate" placeholder=10>
 								</div>
 							</div>
 						</div>
@@ -304,7 +304,7 @@
 
 			function addItemBlock() {
 				// TODO: implement this function
-				console.log('add item');
+				console.log('This function will be implemented in the final application');
 			}
 
 			var cubes = [];
@@ -351,6 +351,38 @@
 					}];
 				}
 
+				// get item data
+				let data = [{
+					name: 'box1',
+					length: parseFloat(document.getElementById('item1XCoordinate').value) || 2,
+					breadth: parseFloat(document.getElementById('item1ZCoordinate').value) || 3,
+					height: parseFloat(document.getElementById('item1YCoordinate').value) || 1,
+					quantity: parseFloat(document.getElementById('item1Quantity').value) || 2,
+					color: parseInt(document.getElementById('item1Color').value, 16) || 0x000fff
+				},{
+					name: 'box2',
+					length: parseFloat(document.getElementById('item2XCoordinate').value) || 3,
+					breadth: parseFloat(document.getElementById('item2ZCoordinate').value) || 2,
+					height: parseFloat(document.getElementById('item2YCoordinate').value) || 3,
+					quantity: parseFloat(document.getElementById('item2Quantity').value) || 1,
+					color: parseInt(document.getElementById('item2Color').value, 16) || 0xfff000
+				},{
+					name: 'box3',
+					length: parseFloat(document.getElementById('item3XCoordinate').value) || 4,
+					breadth: parseFloat(document.getElementById('item3ZCoordinate').value) || 2,
+					height: parseFloat(document.getElementById('item3YCoordinate').value) || 2,
+					quantity: parseFloat(document.getElementById('item3Quantity').value) || 3,
+					color: parseInt(document.getElementById('item3Color').value, 16) || 0xff00ff
+				},{
+					name: 'box4',
+					length: parseFloat(document.getElementById('item4XCoordinate').value) || 4,
+					breadth: parseFloat(document.getElementById('item4ZCoordinate').value) || 3,
+					height: parseFloat(document.getElementById('item4YCoordinate').value) || 5,
+					quantity: parseFloat(document.getElementById('item4Quantity').value) || 1,
+					color: parseInt(document.getElementById('item4Color').value, 16) || 0xffff00
+				}];
+				listOfItems = [];
+				prepareListOfItems(data);
 				packItems();
 				// render boxes as per spotting logic
 				for (const item of packedItems) {
