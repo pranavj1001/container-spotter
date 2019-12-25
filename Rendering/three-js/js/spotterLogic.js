@@ -95,13 +95,48 @@ const doesItemFit = (pivot, item, pivots) => {
     maxLength = maxDimensionsPossible.length;
     maxBreadth = maxDimensionsPossible.breadth;
     maxHeight = maxDimensionsPossible.height;
-    if (item.length + pivot.xCoordinate > maxLength ||
-        item.breadth + pivot.yCoordinate > maxBreadth ||
-        item.height + pivot.zCoordinate > maxHeight) {
-            return false;
-        } else {
-            return true;   
+    if (!checkIfCurrentItemIsInsideAPackedItem(item, pivot)) {
+        if (item.length + pivot.xCoordinate > maxLength ||
+            item.breadth + pivot.yCoordinate > maxBreadth ||
+            item.height + pivot.zCoordinate > maxHeight
+            ) {
+                return false;
+            } else {
+                return true;   
+            }
+    } else {
+        return false;
+    }
+};
+
+const checkIfCurrentItemIsInsideAPackedItem = (item, pivot) => {
+    const point = {
+        xCoordinate: pivot.xCoordinate,
+        yCoordinate: pivot.yCoordinate + item.breadth,
+        zCoordinate: pivot.zCoordinate,
+        z2Coordinate: pivot.zCoordinate + item.height
+    };
+
+    const point2 = {
+        xCoordinate: pivot.xCoordinate,
+        yCoordinate: pivot.yCoordinate + item.height,
+        zCoordinate: pivot.zCoordinate + item.breadth
+    };
+
+    for (const packedItem of packedItems) {
+        if (
+            ((packedItem.length + packedItem.pivotPosition.xCoordinate) > point.xCoordinate && point.xCoordinate > packedItem.pivotPosition.xCoordinate) &&
+            ((packedItem.breadth + packedItem.pivotPosition.yCoordinate) > point.yCoordinate && point.yCoordinate > packedItem.pivotPosition.yCoordinate) &&
+            (
+                ((packedItem.height + packedItem.pivotPosition.zCoordinate) > point.zCoordinate && point.zCoordinate > packedItem.pivotPosition.zCoordinate) ||
+                ((packedItem.height + packedItem.pivotPosition.zCoordinate) > point.z2Coordinate && point.z2Coordinate > packedItem.pivotPosition.zCoordinate)
+            )
+        ) {
+            return true;
         }
+    }
+
+    return false;
 };
 
 const calculateMaxPossibleDimensions = (currentPivot, pivots) => {
