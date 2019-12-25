@@ -121,12 +121,12 @@ const calculateMaxPossibleDimensions = (currentPivot, pivots) => {
                     pivot.zCoordinate > currentPivot.zCoordinate) {
                         maxDimensionsPossible.height = pivot.zCoordinate - currentPivot.zCoordinate;
                 } 
-                // else if 
-                //     (pivot.yCoordinate === currentPivot.yCoordinate &&
-                //     pivot.zCoordinate > currentPivot.zCoordinate &&
-                //     pivot.xCoordinate > currentPivot.xCoordinate) {
-                //         maxDimensionsPossible.breadth = pivot.yCoordinate - currentPivot.yCoordinate;
-                // } 
+                else if 
+                    (pivot.yCoordinate === currentPivot.yCoordinate &&
+                    pivot.zCoordinate > currentPivot.zCoordinate &&
+                    pivot.xCoordinate > currentPivot.xCoordinate) {
+                        maxDimensionsPossible.breadth = pivot.yCoordinate - currentPivot.yCoordinate;
+                } 
                 else if 
                     (pivot.zCoordinate === currentPivot.zCoordinate &&
                     pivot.yCoordinate > currentPivot.yCoordinate &&
