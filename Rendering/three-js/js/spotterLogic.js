@@ -83,6 +83,8 @@ const PivotType = {
     FRONT_RIGHT_LOWER_CORNER: 3
 }
 
+let newPivot = {};
+
 // list of packed and not packed items
 packedItems = [];
 notPackedItems = [];
@@ -110,6 +112,7 @@ const doesItemFit = (pivot, item, pivots) => {
 };
 
 const checkIfCurrentItemIsInsideAPackedItem = (item, pivot) => {
+    // check cuboid top 2 points only since we are 
     const point = {
         xCoordinate: pivot.xCoordinate,
         yCoordinate: pivot.yCoordinate + item.breadth,
@@ -238,6 +241,25 @@ const removePivotsInSameLine = (pivots) => {
     }
 };
 
+const isPointInsideACuboid = (point) => {
+
+    if ((point.xCoordinate === 0.01 || point.zCoordinate === 0.01) && (point.yCoordinate === -0.01)) {
+        return true;
+    }
+
+    for (const packedItem of packedItems) {
+        if (
+            ((packedItem.length + packedItem.pivotPosition.xCoordinate) > point.xCoordinate && point.xCoordinate > packedItem.pivotPosition.xCoordinate) &&
+            ((packedItem.breadth + packedItem.pivotPosition.yCoordinate) > point.yCoordinate && point.yCoordinate > packedItem.pivotPosition.yCoordinate) &&
+            ((packedItem.height + packedItem.pivotPosition.zCoordinate) > point.zCoordinate && point.zCoordinate > packedItem.pivotPosition.zCoordinate)
+        ) {
+            return true;
+        }
+    }
+
+    return false;
+};
+
 const packItems = () => {
     for (let item of listOfItems) {
         item = JSON.parse(JSON.stringify(item));
@@ -251,24 +273,49 @@ const packItems = () => {
                 maxPivotXCoordinate = 0;
                 maxPivotYCoordinate = 0;
                 maxPivotZCoordinate = 0;
-                pivots.push({
-                    xCoordinate: pivot.xCoordinate,
-                    yCoordinate: pivot.yCoordinate,
-                    zCoordinate: pivot.zCoordinate + item.height,
-                    origin: false
-                });
-                pivots.push({
-                    xCoordinate: pivot.xCoordinate,
-                    yCoordinate: pivot.yCoordinate + item.breadth,
-                    zCoordinate: pivot.zCoordinate,
-                    origin: false
-                });
-                pivots.push({
-                    xCoordinate: pivot.xCoordinate + item.length,
-                    yCoordinate: pivot.yCoordinate,
-                    zCoordinate: pivot.zCoordinate,
-                    origin: false
-                });
+
+                newPivot = {
+                    xCoordinate: pivot.xCoordinate + 0.01,
+                    yCoordinate: pivot.yCoordinate - 0.01,
+                    zCoordinate: pivot.zCoordinate + item.height + 0.01
+                };
+                if (isPointInsideACuboid(newPivot)) {
+                    pivots.push({
+                        xCoordinate: pivot.xCoordinate,
+                        yCoordinate: pivot.yCoordinate,
+                        zCoordinate: pivot.zCoordinate + item.height,
+                        origin: false
+                    });
+                }
+
+                newPivot = {
+                    xCoordinate: pivot.xCoordinate + 0.01,
+                    yCoordinate: pivot.yCoordinate + item.breadth + 0.01,
+                    zCoordinate: pivot.zCoordinate + 0.01
+                }
+                if (!isPointInsideACuboid(newPivot)) {
+                    pivots.push({
+                        xCoordinate: pivot.xCoordinate,
+                        yCoordinate: pivot.yCoordinate + item.breadth,
+                        zCoordinate: pivot.zCoordinate,
+                        origin: false
+                    });
+                }
+
+                newPivot = {
+                    xCoordinate: pivot.xCoordinate + item.length + 0.01,
+                    yCoordinate: pivot.yCoordinate - 0.01,
+                    zCoordinate: pivot.zCoordinate + 0.01
+                };
+                if (isPointInsideACuboid(newPivot)) {
+                    pivots.push({
+                        xCoordinate: pivot.xCoordinate + item.length,
+                        yCoordinate: pivot.yCoordinate,
+                        zCoordinate: pivot.zCoordinate,
+                        origin: false
+                    });
+                }
+
                 pivots.splice(counter, 1);
                 removePivotsInSameLine(pivots);
                 break;
