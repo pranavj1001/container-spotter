@@ -117,13 +117,8 @@ const checkIfCurrentItemIsInsideAPackedItem = (item, pivot) => {
         z2Coordinate: pivot.zCoordinate + item.height
     };
 
-    const point2 = {
-        xCoordinate: pivot.xCoordinate,
-        yCoordinate: pivot.yCoordinate + item.height,
-        zCoordinate: pivot.zCoordinate + item.breadth
-    };
-
     for (const packedItem of packedItems) {
+        // if the points lie inside the packedItem
         if (
             ((packedItem.length + packedItem.pivotPosition.xCoordinate) > point.xCoordinate && point.xCoordinate > packedItem.pivotPosition.xCoordinate) &&
             ((packedItem.breadth + packedItem.pivotPosition.yCoordinate) > point.yCoordinate && point.yCoordinate > packedItem.pivotPosition.yCoordinate) &&
@@ -131,6 +126,40 @@ const checkIfCurrentItemIsInsideAPackedItem = (item, pivot) => {
                 ((packedItem.height + packedItem.pivotPosition.zCoordinate) > point.zCoordinate && point.zCoordinate > packedItem.pivotPosition.zCoordinate) ||
                 ((packedItem.height + packedItem.pivotPosition.zCoordinate) > point.z2Coordinate && point.z2Coordinate > packedItem.pivotPosition.zCoordinate)
             )
+        ) {
+            return true;
+        }
+
+        // if item about to be packed ends at the same length like packedItem
+        if (
+            point.xCoordinate === packedItem.pivotPosition.xCoordinate &&
+            ((packedItem.breadth + packedItem.pivotPosition.yCoordinate) > point.yCoordinate && point.yCoordinate > packedItem.pivotPosition.yCoordinate) &&
+            (
+                ((packedItem.height + packedItem.pivotPosition.zCoordinate) > point.zCoordinate && point.zCoordinate > packedItem.pivotPosition.zCoordinate) ||
+                ((packedItem.height + packedItem.pivotPosition.zCoordinate) > point.z2Coordinate && point.z2Coordinate > packedItem.pivotPosition.zCoordinate)
+            )
+        ) {
+            return true;
+        }
+
+        // if item about to be packed ends at the same height like packedItem
+        if (
+            point.yCoordinate === (packedItem.breadth + packedItem.pivotPosition.yCoordinate) &&
+            ((packedItem.length + packedItem.pivotPosition.xCoordinate) > point.xCoordinate && point.xCoordinate > packedItem.pivotPosition.xCoordinate) &&
+            (
+                ((packedItem.height + packedItem.pivotPosition.zCoordinate) > point.zCoordinate && point.zCoordinate > packedItem.pivotPosition.zCoordinate) ||
+                ((packedItem.height + packedItem.pivotPosition.zCoordinate) > point.z2Coordinate && point.z2Coordinate > packedItem.pivotPosition.zCoordinate)
+            )
+        ) {
+            return true;
+        }
+
+        // if item about to be packed ends at the same breadth like packedItem
+        if (
+            (point.zCoordinate === packedItem.pivotPosition.zCoordinate && point.z2Coordinate  === (packedItem.height + packedItem.pivotPosition.zCoordinate)) &&
+            ((packedItem.length + packedItem.pivotPosition.xCoordinate) > point.xCoordinate && point.xCoordinate > packedItem.pivotPosition.xCoordinate) &&
+            ((packedItem.breadth + packedItem.pivotPosition.yCoordinate) > point.yCoordinate && point.yCoordinate > packedItem.pivotPosition.yCoordinate)
+            
         ) {
             return true;
         }
