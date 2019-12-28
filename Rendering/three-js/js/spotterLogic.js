@@ -274,6 +274,7 @@ const packItems = () => {
                 maxPivotYCoordinate = 0;
                 maxPivotZCoordinate = 0;
 
+                // TODO: fine tune pivot adding logic more
                 newPivot = {
                     xCoordinate: pivot.xCoordinate + 0.01,
                     yCoordinate: pivot.yCoordinate - 0.01,
