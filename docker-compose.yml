@@ -35,7 +35,7 @@ services:
       dockerfile: dev.Dockerfile
       context: ./nginx
     ports:
-      - '3050:80'
+      - '4020:80'
   client:
     build:
       dockerfile: dev.Dockerfile
