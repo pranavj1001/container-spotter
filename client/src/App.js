@@ -6,20 +6,33 @@ import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 function App() {
   return (
     <Router>
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+      <div>
+        <Switch>
+          <Route exact path="/">
+            <Home />
+          </Route>
+          <Route path="/tool">
+            <Tool />
+          </Route>
+        </Switch>
       </div>
     </Router>
+  );
+}
+
+function Home() {
+  return (
+    <div>
+      <h2>Home</h2>
+    </div>
+  );
+}
+
+function Tool() {
+  return (
+    <div>
+      <h2>About</h2>
+    </div>
   );
 }
 
