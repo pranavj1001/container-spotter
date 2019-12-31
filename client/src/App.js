@@ -1,7 +1,8 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
+import Tool from './components/tool/tool';
+import Home from './components/home/home';
 
 function App() {
   return (
@@ -17,22 +18,6 @@ function App() {
         </Switch>
       </div>
     </Router>
-  );
-}
-
-function Home() {
-  return (
-    <div>
-      <h2>Home</h2>
-    </div>
-  );
-}
-
-function Tool() {
-  return (
-    <div>
-      <h2>Tool</h2>
-    </div>
   );
 }
 
