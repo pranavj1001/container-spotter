@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import * as THREE from 'three';
-import * as OrbitControls from './resources/OrbitControls';
+import './visualizer.css';
+import * as THREE from 'three/build/three';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
 class Visualizer extends Component {
 
@@ -10,7 +11,7 @@ class Visualizer extends Component {
         scene.background = new THREE.Color(0x808080);
         let renderer = new THREE.WebGLRenderer();
         renderer.setSize( this.mount.offsetWidth, this.mount.offsetHeight );
-        this.mount.appendChild.appendChild( renderer.domElement );
+        this.mount.appendChild( renderer.domElement );
         let camera = new THREE.PerspectiveCamera( 75, this.mount.offsetWidth/this.mount.offsetHeight, 0.1, 1000 );
 
         let containerGeometryX = 20;
@@ -60,8 +61,8 @@ class Visualizer extends Component {
 
         scene.add(binObject);
 
-        this.raycaster = new THREE.this.raycaster();
-        this.mouse = new THREE.Vector2();
+        let raycaster = new THREE.Raycaster();
+        let mouse = new THREE.Vector2();
 
         // directional light
         let light = new THREE.DirectionalLight( 0xffffff );
@@ -75,7 +76,7 @@ class Visualizer extends Component {
         camera.position.set(0,0,30);
         renderer.render( scene, camera );
 
-        let controls = new THREE.OrbitControls( camera, this.mount );
+        let controls = new OrbitControls( camera, this.mount );
         controls.enableDamping = true; // an animation loop is required when either damping or auto-rotation are enabled
         controls.dampingFactor = 0.05;
         controls.screenSpacePanning = false;
@@ -105,8 +106,8 @@ class Visualizer extends Component {
         let onMouseMove = (event) => {
             // calculate this.mouse position in normalized device coordinates
             // (-1 to +1) for both components
-            this.mouse.x = ( ( event.clientX - this.mount.offsetLeft ) / this.mount.clientWidth ) * 2 - 1;
-            this.mouse.y = - ( ( event.clientY - this.mount.offsetTop ) / this.mount.clientHeight ) * 2 + 1;
+            mouse.x = ( ( event.clientX - this.mount.offsetLeft ) / this.mount.clientWidth ) * 2 - 1;
+            mouse.y = - ( ( event.clientY - this.mount.offsetTop ) / this.mount.clientHeight ) * 2 + 1;
         };
 
         let animate = () => {
@@ -114,10 +115,10 @@ class Visualizer extends Component {
             controls.update();
 
             // update the picking ray with the camera and this.mouse position
-            this.raycaster.setFromCamera( this.mouse, camera );
+            raycaster.setFromCamera( mouse, camera );
 
             // calculate objects intersecting the picking ray
-            var intersects = this.raycaster.intersectObjects( scene.children[0].children.slice(2) );
+            var intersects = raycaster.intersectObjects( scene.children[0].children.slice(2) );
 
             // for ( var i = 0; i < intersects.length; i++ ) {
             // 	intersects[ i ].object.material.color.set( 0xff0000 );
@@ -147,7 +148,7 @@ class Visualizer extends Component {
 
     render() {
         return (
-            <div ref={ref => (this.mount = ref)} />
+            <div className="full-height-div" ref={ref => (this.mount = ref)} />
         );
     }
 }
