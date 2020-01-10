@@ -1,3 +1,0 @@
-# container-spotter
-
-**WIP**
