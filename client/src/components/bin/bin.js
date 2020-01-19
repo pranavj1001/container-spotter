@@ -2,7 +2,7 @@ import React from 'react';
 
 const Controller = () => {
     return (
-        <div>
+        <React.Fragment>
             <h4>Bin Dimensions</h4>
             <hr className="container-spotter-basic-hr" />
             <div className="form-group">
@@ -21,7 +21,7 @@ const Controller = () => {
                     </div>
                 </div>
             </div>
-        </div>
+        </React.Fragment>
     );
 };
 
