@@ -84,18 +84,18 @@ class Visualizer extends Component {
         controls.maxDistance = 40;
         controls.maxPolarAngle = Math.PI / 2;
 
-        let handleClickEvents = (event) => {
-            var element = event.target || event.srcElement
-            if (element !== renderer.domElement) {
-                event.stopPropagation();
-                event.preventDefault();
-                if (element.tagName === 'INPUT') {
-                    element.focus();
-                } else {
-                    document.activeElement.blur();
-                }
-            }
-        };
+        // let handleClickEvents = (event) => {
+        //     var element = event.target || event.srcElement
+        //     if (element !== renderer.domElement) {
+        //         event.stopPropagation();
+        //         event.preventDefault();
+        //         if (element.tagName === 'INPUT') {
+        //             element.focus();
+        //         } else {
+        //             document.activeElement.blur();
+        //         }
+        //     }
+        // };
 
         let onWindowResize = () => {
             camera.aspect = this.mount.offsetWidth / this.mount.offsetHeight;
@@ -125,7 +125,7 @@ class Visualizer extends Component {
             // }
 
             if ( intersects.length > 0 ) {
-                if ( this.INTERSECTED != intersects[ 0 ].object ) {
+                if ( this.INTERSECTED !== intersects[ 0 ].object ) {
                     if ( this.INTERSECTED ) this.INTERSECTED.material.emissive.setHex( this.INTERSECTED.currentHex );
                     this.INTERSECTED = intersects[ 0 ].object;
                     this.INTERSECTED.currentHex = this.INTERSECTED.material.emissive.getHex();
