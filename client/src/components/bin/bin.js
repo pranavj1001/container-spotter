@@ -5,14 +5,15 @@ class Bin extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            binXCoordinate: 0,
-            binZCoordinate: 0,
-            binYCoordinate: 0
+            binXCoordinate: props.dimensions.binXCoordinate,
+            binYCoordinate: props.dimensions.binYCoordinate,
+            binZCoordinate: props.dimensions.binZCoordinate
         };
     }
 
     handleChange = ({ target }) => {
-        this.setState({ [target.name]: target.value });
+        this.setState({ [target.name]: parseFloat(target.value) || '' });
+        this.props.onBinPropsUpdate({ target });
     }
 
     render() {
