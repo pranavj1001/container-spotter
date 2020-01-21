@@ -5,6 +5,17 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
 class Visualizer extends Component {
 
+    constructor(props) {
+        super(props);
+        
+        this.containerGeometryX = 20;
+        this.containerGeometryY = 10;
+        this.containerGeometryZ = 10;
+        this.containerMaterial = [];
+        this.containerGeometry = '';
+        this.containerEdges = '';
+    }
+
     componentDidMount() {
 
         let scene = new THREE.Scene();
@@ -14,50 +25,45 @@ class Visualizer extends Component {
         this.mount.appendChild( renderer.domElement );
         let camera = new THREE.PerspectiveCamera( 75, this.mount.offsetWidth/this.mount.offsetHeight, 0.1, 1000 );
 
-        let containerGeometryX = 20;
-        let containerGeometryY = 10;
-        let containerGeometryZ = 10;
-
-        let containerGeometry = new THREE.BoxGeometry( containerGeometryX, containerGeometryY, containerGeometryZ );
-        let containerMaterial = [];
-        containerMaterial.push(new THREE.MeshLambertMaterial({
+        this.containerGeometry = new THREE.BoxGeometry( this.containerGeometryX, this.containerGeometryY, this.containerGeometryZ );
+        this.containerMaterial.push(new THREE.MeshLambertMaterial({
             opacity:0.1,
             transparent: true,
             side: THREE.DoubleSide
         }));
-        containerMaterial.push(new THREE.MeshLambertMaterial({
+        this.containerMaterial.push(new THREE.MeshLambertMaterial({
             opacity:0.1,
             transparent: true,
             side: THREE.DoubleSide
         }));
-        containerMaterial.push(new THREE.MeshLambertMaterial({
+        this.containerMaterial.push(new THREE.MeshLambertMaterial({
             opacity:0.1,
             transparent: true,
             side: THREE.DoubleSide
         }));
-        containerMaterial.push(new THREE.MeshLambertMaterial({
+        this.containerMaterial.push(new THREE.MeshLambertMaterial({
             opacity:0.7,
             color:0x111122,
             side: THREE.DoubleSide
         }));
-        containerMaterial.push(new THREE.MeshLambertMaterial({
+        this.containerMaterial.push(new THREE.MeshLambertMaterial({
             opacity:0.1,
             transparent: true,
             side: THREE.DoubleSide
         }));
-        containerMaterial.push(new THREE.MeshLambertMaterial({
+        this.containerMaterial.push(new THREE.MeshLambertMaterial({
             opacity:0.1,
             transparent: true,
             side: THREE.DoubleSide
         }));
-        let containerEdges = new THREE.EdgesGeometry( containerGeometry );
-        let containerLine = new THREE.LineSegments( containerEdges, new THREE.LineBasicMaterial( { color: 0x111111 } ) );
-        let containerCube = new THREE.Mesh( containerGeometry, containerMaterial );
+        this.containerEdges = new THREE.EdgesGeometry( this.containerGeometry );
+        this.containerLine = new THREE.LineSegments( this.containerEdges, new THREE.LineBasicMaterial( { color: 0x111111 } ) );
+        this.containerCube = new THREE.Mesh( this.containerGeometry, this.containerMaterial );
 
         //create a Object3D and add the two cubes
         let binObject = new THREE.Object3D();
-        binObject.add(containerCube);
-        binObject.add(containerLine);
+        binObject.add(this.containerCube);
+        binObject.add(this.containerLine);
 
         scene.add(binObject);
 
@@ -144,6 +150,21 @@ class Visualizer extends Component {
         this.mount.addEventListener( 'mousemove', onMouseMove, false );
 
         animate();
+    }
+
+    renderItems() {
+        console.log('Reached Visualizer');
+        this.containerGeometry.dispose();
+        this.containerEdges.dispose();
+
+        this.containerGeometryX = 30;
+        this.containerGeometryY = 10;
+        this.containerGeometryZ = 10;
+
+        var newContainerGeometry = new THREE.BoxGeometry( this.containerGeometryX, this.containerGeometryY, this.containerGeometryZ );
+        var newContainerEdges = new THREE.EdgesGeometry( newContainerGeometry );
+        this.containerCube.geometry = newContainerGeometry;
+        this.containerLine.geometry = newContainerEdges;
     }
 
     render() {
