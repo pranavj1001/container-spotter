@@ -22,7 +22,7 @@ class Controller extends React.Component {
                     onBinPropsUpdate={this.onBinPropsUpdate.bind(this)}
                 />
                 <hr className="container-spotter-item-divider-hr" />
-                <button className="btn btn-primary">Pack</button>
+                <button className="btn btn-primary" onClick={this.props.packItems}>Pack</button>
             </div>
         );
     }

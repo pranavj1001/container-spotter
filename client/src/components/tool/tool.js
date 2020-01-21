@@ -14,6 +14,7 @@ class Tool extends React.Component {
             },
             itemDimensions: []
         };
+        this.visualizerRef = React.createRef();
     }
 
     onBinStateUpdate({ target }) {
@@ -29,6 +30,10 @@ class Tool extends React.Component {
         });
     }
 
+    packItems() {
+        this.visualizerRef.current.renderItems();
+    }
+
     render() {
         return (
             <div className="row">
@@ -37,10 +42,13 @@ class Tool extends React.Component {
                         binDimensions={this.state.binDimensions} 
                         itemDimensions={this.state.itemDimensions} 
                         onBinStateUpdate={this.onBinStateUpdate.bind(this)}
+                        packItems={this.packItems.bind(this)}
                     />
                 </div>
                 <div id="view" className="col-md-9 container-spotter-no-padding-div container-spotter-right-div">
-                    <Visualizer />
+                    <Visualizer 
+                        ref={this.visualizerRef}
+                    />
                 </div>
             </div>
         );
