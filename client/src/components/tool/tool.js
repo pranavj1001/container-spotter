@@ -8,9 +8,9 @@ class Tool extends React.Component {
         super();
         this.state = {
             binDimensions: {
-                binXCoordinate: 0,
-                binZCoordinate: 0,
-                binYCoordinate: 0
+                binLength: 0,
+                binWidth: 0,
+                binHeight: 0
             },
             itemDimensions: []
         };
@@ -21,9 +21,9 @@ class Tool extends React.Component {
         this.setState((previousState) => { 
             return {
                 binDimensions: {
-                    binXCoordinate: (target.name !== 'binXCoordinate' ? previousState.binDimensions.binXCoordinate : (parseFloat(target.value) || '')),
-                    binYCoordinate: (target.name !== 'binYCoordinate' ? previousState.binDimensions.binYCoordinate : (parseFloat(target.value) || '')),
-                    binZCoordinate: (target.name !== 'binZCoordinate' ? previousState.binDimensions.binZCoordinate : (parseFloat(target.value) || ''))
+                    binLength: (target.name !== 'binLength' ? previousState.binDimensions.binLength : (parseFloat(target.value) || '')),
+                    binHeight: (target.name !== 'binHeight' ? previousState.binDimensions.binHeight : (parseFloat(target.value) || '')),
+                    binWidth: (target.name !== 'binWidth' ? previousState.binDimensions.binWidth : (parseFloat(target.value) || ''))
                 },
                 itemDimensions: previousState.itemDimensions
             }

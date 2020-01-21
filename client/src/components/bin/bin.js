@@ -5,9 +5,9 @@ class Bin extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            binXCoordinate: props.dimensions.binXCoordinate,
-            binYCoordinate: props.dimensions.binYCoordinate,
-            binZCoordinate: props.dimensions.binZCoordinate
+            binLength: props.dimensions.binLength,
+            binHeight: props.dimensions.binHeight,
+            binWidth: props.dimensions.binWidth
         };
     }
 
@@ -24,40 +24,37 @@ class Bin extends React.Component {
                 <div className="form-group">
                     <div className="row">
                         <div className="col-lg-4 container-spotter-input-label-block">
-                            <label htmlFor="binXCoordinate">Length</label>
+                            <label htmlFor="binLength">Length</label>
                             <input 
                                 type="number" 
                                 className="form-control" 
-                                name="binXCoordinate" 
-                                id="binXCoordinate" 
+                                name="binLength"
                                 placeholder="20" 
-                                value={this.state.binXCoordinate}
+                                value={this.state.binLength}
                                 onChange={this.handleChange}
                                 onKeyUp={this.handleChange}
                             />
                         </div>
                         <div className="col-lg-4 container-spotter-input-label-block">
-                            <label htmlFor="binZCoordinate">Width</label>
+                            <label htmlFor="binWidth">Width</label>
                             <input 
                                 type="number" 
                                 className="form-control" 
-                                name="binZCoordinate" 
-                                id="binZCoordinate" 
+                                name="binWidth"
                                 placeholder="10" 
-                                value={this.state.binZCoordinate}
+                                value={this.state.binWidth}
                                 onChange={this.handleChange}
                                 onKeyUp={this.handleChange}
                             />
                         </div>
                         <div className="col-lg-4 container-spotter-input-label-block">
-                            <label htmlFor="binYCoordinate">Height</label>
+                            <label htmlFor="binHeight">Height</label>
                             <input 
                                 type="number" 
                                 className="form-control" 
-                                name="binYCoordinate" 
-                                id="binYCoordinate" 
+                                name="binHeight"
                                 placeholder="10" 
-                                value={this.state.binYCoordinate}
+                                value={this.state.binHeight}
                                 onChange={this.handleChange}
                                 onKeyUp={this.handleChange}
                             />
