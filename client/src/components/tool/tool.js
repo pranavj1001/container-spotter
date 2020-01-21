@@ -48,6 +48,8 @@ class Tool extends React.Component {
                 <div id="view" className="col-md-9 container-spotter-no-padding-div container-spotter-right-div">
                     <Visualizer 
                         ref={this.visualizerRef}
+                        binDimensions={this.state.binDimensions}
+                        itemDimensions={this.state.itemDimensions}
                     />
                 </div>
             </div>

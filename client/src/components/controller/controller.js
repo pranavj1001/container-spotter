@@ -12,6 +12,10 @@ class Controller extends React.Component {
         this.props.onBinStateUpdate({ target });
     }
 
+    packItems() {
+        this.props.packItems();
+    }
+
     render() {
         return (
             <div className="container-spotter-content-div">
@@ -22,7 +26,7 @@ class Controller extends React.Component {
                     onBinPropsUpdate={this.onBinPropsUpdate.bind(this)}
                 />
                 <hr className="container-spotter-item-divider-hr" />
-                <button className="btn btn-primary" onClick={this.props.packItems}>Pack</button>
+                <button className="btn btn-primary" onClick={this.packItems.bind(this)}>Pack</button>
             </div>
         );
     }
