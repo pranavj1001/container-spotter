@@ -7,10 +7,10 @@ class Visualizer extends Component {
 
     constructor(props) {
         super(props);
-        
-        this.containerGeometryX = 20;
-        this.containerGeometryY = 10;
-        this.containerGeometryZ = 10;
+
+        this.binContainerLength = 20;
+        this.binContainerHeight = 10;
+        this.binContainerWidth = 10;
         this.containerMaterial = [];
         this.containerGeometry = '';
         this.containerEdges = '';
@@ -25,7 +25,7 @@ class Visualizer extends Component {
         this.mount.appendChild( renderer.domElement );
         let camera = new THREE.PerspectiveCamera( 75, this.mount.offsetWidth/this.mount.offsetHeight, 0.1, 1000 );
 
-        this.containerGeometry = new THREE.BoxGeometry( this.containerGeometryX, this.containerGeometryY, this.containerGeometryZ );
+        this.containerGeometry = new THREE.BoxGeometry( this.binContainerLength, this.binContainerHeight, this.binContainerWidth );
         this.containerMaterial.push(new THREE.MeshLambertMaterial({
             opacity:0.1,
             transparent: true,
@@ -153,15 +153,14 @@ class Visualizer extends Component {
     }
 
     renderItems() {
-        console.log('Reached Visualizer');
         this.containerGeometry.dispose();
         this.containerEdges.dispose();
 
-        this.containerGeometryX = 30;
-        this.containerGeometryY = 10;
-        this.containerGeometryZ = 10;
+        this.binContainerLength = this.props.binDimensions.binLength === '' || this.props.binDimensions.binLength === 0 ? 20 : this.props.binDimensions.binLength;
+        this.binContainerHeight = this.props.binDimensions.binHeight === '' || this.props.binDimensions.binHeight === 0 ? 10 : this.props.binDimensions.binHeight;
+        this.binContainerWidth = this.props.binDimensions.binWidth === '' || this.props.binDimensions.binWidth === 0 ? 10 : this.props.binDimensions.binWidth;
 
-        var newContainerGeometry = new THREE.BoxGeometry( this.containerGeometryX, this.containerGeometryY, this.containerGeometryZ );
+        var newContainerGeometry = new THREE.BoxGeometry( this.binContainerLength, this.binContainerHeight, this.binContainerWidth );
         var newContainerEdges = new THREE.EdgesGeometry( newContainerGeometry );
         this.containerCube.geometry = newContainerGeometry;
         this.containerLine.geometry = newContainerEdges;
