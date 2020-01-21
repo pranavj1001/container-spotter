@@ -3,6 +3,7 @@ import Bin from '../bin/bin';
 
 class Controller extends React.Component {
 
+    // eslint-disable-next-line
     constructor(props) {
         super(props);
     }

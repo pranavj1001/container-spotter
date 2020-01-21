@@ -27,7 +27,6 @@ class Tool extends React.Component {
                 itemDimensions: previousState.itemDimensions
             }
         });
-        console.log(this.state);
     }
 
     render() {

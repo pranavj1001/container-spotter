@@ -33,6 +33,7 @@ class Bin extends React.Component {
                                 placeholder="20" 
                                 value={this.state.binXCoordinate}
                                 onChange={this.handleChange}
+                                onKeyUp={this.handleChange}
                             />
                         </div>
                         <div className="col-lg-4 container-spotter-input-label-block">
@@ -45,6 +46,7 @@ class Bin extends React.Component {
                                 placeholder="10" 
                                 value={this.state.binZCoordinate}
                                 onChange={this.handleChange}
+                                onKeyUp={this.handleChange}
                             />
                         </div>
                         <div className="col-lg-4 container-spotter-input-label-block">
@@ -57,6 +59,7 @@ class Bin extends React.Component {
                                 placeholder="10" 
                                 value={this.state.binYCoordinate}
                                 onChange={this.handleChange}
+                                onKeyUp={this.handleChange}
                             />
                         </div>
                     </div>
