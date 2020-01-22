@@ -6,6 +6,9 @@ class Controller extends React.Component {
     // eslint-disable-next-line
     constructor(props) {
         super(props);
+        this.state = {
+            itemDimensions : props.itemDimensions
+        };
     }
 
     onBinPropsUpdate({ target }) {
