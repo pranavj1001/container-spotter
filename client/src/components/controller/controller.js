@@ -16,6 +16,10 @@ class Controller extends React.Component {
         this.props.packItems();
     }
 
+    addItemBlock() {
+        console.log('Add Item Block WIP');
+    }
+
     render() {
         return (
             <div className="container-spotter-content-div">
@@ -26,6 +30,10 @@ class Controller extends React.Component {
                     onBinPropsUpdate={this.onBinPropsUpdate.bind(this)}
                 />
                 <hr className="container-spotter-item-divider-hr" />
+                <h4 className="display-inline-block">Item Details</h4>
+                <button className="btn btn-primary container-spotter-add-item-button" 
+                    onClick={this.addItemBlock} title="Add item">&#43;</button>
+                <hr className="container-spotter-basic-hr" />
                 <button className="btn btn-primary" onClick={this.packItems.bind(this)}>Pack</button>
             </div>
         );
