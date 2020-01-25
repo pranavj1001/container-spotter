@@ -35,6 +35,12 @@ class Controller extends React.Component {
         });
     }
 
+    updateItemDetails(itemState) {
+        const itemDimensions = this.state.itemDimensions;
+        itemDimensions[itemState.index] = itemState.itemDetails;
+        this.setState({itemDimensions});
+    }
+
     render() {
         return (
             <div className="container-spotter-content-div">
@@ -51,7 +57,7 @@ class Controller extends React.Component {
                 <hr className="container-spotter-basic-hr" />
                 {
                     this.state.itemDimensions.map((itemDetails, index) => (
-                        <Item itemDetails={itemDetails} key={itemDetails.itemId} index={index}/>
+                        <Item itemDetails={itemDetails} key={itemDetails.itemId} index={index} updateItemDetails={this.updateItemDetails.bind(this)}/>
                     ))
                 }
                 <button className="btn btn-primary" onClick={this.packItems.bind(this)}>Pack</button>

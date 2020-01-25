@@ -24,7 +24,7 @@ class Item extends React.Component {
                 }
             }
         });
-        // this.props.onBinPropsUpdate({ target });
+        this.props.updateItemDetails(this.state);
     }
 
     render() {
