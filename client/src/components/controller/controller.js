@@ -21,13 +21,17 @@ class Controller extends React.Component {
     }
 
     addItemBlock() {
-        console.log('Add Item Block WIP', this.state);
-        this.setState.push({
-            itemLength: 0,
-            itemWidth: 0,
-            itemHeight: 0,
-            itemColor: '',
-            itemQuantity: 0
+        this.setState((previousState) => {
+            return {
+                itemDimensions: previousState.itemDimensions.concat({
+                    itemLength: 0,
+                    itemWidth: 0,
+                    itemHeight: 0,
+                    itemColor: '',
+                    itemQuantity: 0,
+                    itemId: 'item' + (previousState.itemDimensions.length + 1)
+                })
+            }
         });
     }
 
@@ -47,7 +51,7 @@ class Controller extends React.Component {
                 <hr className="container-spotter-basic-hr" />
                 {
                     this.state.itemDimensions.map((itemDetails, index) => (
-                        <Item itemDetails={itemDetails} index={index}/>
+                        <Item itemDetails={itemDetails} key={itemDetails.itemId} index={index}/>
                     ))
                 }
                 <button className="btn btn-primary" onClick={this.packItems.bind(this)}>Pack</button>
