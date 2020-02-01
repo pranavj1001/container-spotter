@@ -8,22 +8,43 @@ class Visualizer extends Component {
     constructor(props) {
         super(props);
 
+        // bin dimensions
         this.binContainerLength = 20;
         this.binContainerHeight = 10;
         this.binContainerWidth = 10;
+
+        // bin geometry
         this.containerMaterial = [];
         this.containerGeometry = '';
         this.containerEdges = '';
+
+        // camera 
+        this.camera = '';
+
+        // renderer
+        this.renderer = '';
+
+        // mouse
+        this.mouse = '';
+
+        // controls
+        this.controls = '';
+        
+        // raycaster
+        this.raycaster = '';
+
+        // scene
+        this.scene = '';
     }
 
     componentDidMount() {
 
-        let scene = new THREE.Scene();
-        scene.background = new THREE.Color(0x808080);
-        let renderer = new THREE.WebGLRenderer();
-        renderer.setSize( this.mount.offsetWidth, this.mount.offsetHeight );
-        this.mount.appendChild( renderer.domElement );
-        let camera = new THREE.PerspectiveCamera( 75, this.mount.offsetWidth/this.mount.offsetHeight, 0.1, 1000 );
+        this.scene = new THREE.Scene();
+        this.scene.background = new THREE.Color(0x808080);
+        this.renderer = new THREE.WebGLRenderer();
+        this.renderer.setSize( this.mount.offsetWidth, this.mount.offsetHeight );
+        this.mount.appendChild( this.renderer.domElement );
+        this.camera = new THREE.PerspectiveCamera( 75, this.mount.offsetWidth/this.mount.offsetHeight, 0.1, 1000 );
 
         this.containerGeometry = new THREE.BoxGeometry( this.binContainerLength, this.binContainerHeight, this.binContainerWidth );
         this.containerMaterial.push(new THREE.MeshLambertMaterial({
@@ -65,34 +86,34 @@ class Visualizer extends Component {
         binObject.add(this.containerCube);
         binObject.add(this.containerLine);
 
-        scene.add(binObject);
+        this.scene.add(binObject);
 
-        let raycaster = new THREE.Raycaster();
-        let mouse = new THREE.Vector2();
+        this.raycaster = new THREE.Raycaster();
+        this.mouse = new THREE.Vector2();
 
         // directional light
         let light = new THREE.DirectionalLight( 0xffffff );
         light.position.set( 1, 1, 1 );
-        scene.add( light );
+        this.scene.add( light );
 
         // ambient light
         let ambient = new THREE.AmbientLight( 0xffffff );
-        scene.add( ambient );
+        this.scene.add( ambient );
         
-        camera.position.set(0,0,30);
-        renderer.render( scene, camera );
+        this.camera.position.set(0,0,30);
+        this.renderer.render( this.scene, this.camera );
 
-        let controls = new OrbitControls( camera, this.mount );
-        controls.enableDamping = true; // an animation loop is required when either damping or auto-rotation are enabled
-        controls.dampingFactor = 0.05;
-        controls.screenSpacePanning = false;
-        controls.minDistance = 20;
-        controls.maxDistance = 40;
-        controls.maxPolarAngle = Math.PI / 2;
+        this.controls = new OrbitControls( this.camera, this.mount );
+        this.controls.enableDamping = true; // an animation loop is required when either damping or auto-rotation are enabled
+        this.controls.dampingFactor = 0.05;
+        this.controls.screenSpacePanning = false;
+        this.controls.minDistance = 20;
+        this.controls.maxDistance = 40;
+        this.controls.maxPolarAngle = Math.PI / 2;
 
         // let handleClickEvents = (event) => {
         //     var element = event.target || event.srcElement
-        //     if (element !== renderer.domElement) {
+        //     if (element !== this.renderer.domElement) {
         //         event.stopPropagation();
         //         event.preventDefault();
         //         if (element.tagName === 'INPUT') {
@@ -103,33 +124,24 @@ class Visualizer extends Component {
         //     }
         // };
 
-        let onWindowResize = () => {
-            camera.aspect = this.mount.offsetWidth / this.mount.offsetHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize( this.mount.offsetWidth, this.mount.offsetHeight );
-        };
-
-        let onMouseMove = (event) => {
-            // calculate this.mouse position in normalized device coordinates
-            // (-1 to +1) for both components
-            mouse.x = ( ( event.clientX - this.mount.offsetLeft ) / this.mount.clientWidth ) * 2 - 1;
-            mouse.y = - ( ( event.clientY - this.mount.offsetTop ) / this.mount.clientHeight ) * 2 + 1;
-        };
+        window.addEventListener( 'resize', this.onWindowResize(), false );
+        // document.getElementById('controller').addEventListener( 'mousedown', handleClickEvents, false );
+        this.mount.addEventListener( 'mousemove', this.onMouseMove.bind(this), false );
 
         let animate = () => {
-            requestAnimationFrame( animate );
-            controls.update();
-
-            // update the picking ray with the camera and this.mouse position
-            raycaster.setFromCamera( mouse, camera );
-
+            requestAnimationFrame(animate);
+            this.controls.update();
+    
+            // update the picking ray with the this.camera and this.this.mouse position
+            this.raycaster.setFromCamera( this.mouse, this.camera );
+    
             // calculate objects intersecting the picking ray
-            var intersects = raycaster.intersectObjects( scene.children[0].children.slice(2) );
-
+            var intersects = this.raycaster.intersectObjects( this.scene.children[0].children.slice(2) );
+    
             // for ( var i = 0; i < intersects.length; i++ ) {
             // 	intersects[ i ].object.material.color.set( 0xff0000 );
             // }
-
+    
             if ( intersects.length > 0 ) {
                 if ( this.INTERSECTED !== intersects[ 0 ].object ) {
                     if ( this.INTERSECTED ) this.INTERSECTED.material.emissive.setHex( this.INTERSECTED.currentHex );
@@ -141,18 +153,31 @@ class Visualizer extends Component {
                 if ( this.INTERSECTED ) this.INTERSECTED.material.emissive.setHex( this.INTERSECTED.currentHex );
                 this.INTERSECTED = null;
             }
-
-            renderer.render( scene, camera );
-        };
-
-        window.addEventListener( 'resize', onWindowResize, false );
-        // document.getElementById('controller').addEventListener( 'mousedown', handleClickEvents, false );
-        this.mount.addEventListener( 'mousemove', onMouseMove, false );
+    
+            this.renderer.render( this.scene, this.camera );
+        }
 
         animate();
     }
 
+    
+
+    onWindowResize() {
+        this.camera.aspect = this.mount.offsetWidth / this.mount.offsetHeight;
+        this.camera.updateProjectionMatrix();
+        this.renderer.setSize( this.mount.offsetWidth, this.mount.offsetHeight );
+    }
+
+    onMouseMove(event) {
+        // calculate this.mouse position in normalized device coordinates
+        // (-1 to +1) for both components
+        this.mouse.x = ( ( event.clientX - this.mount.offsetLeft ) / this.mount.clientWidth ) * 2 - 1;
+        this.mouse.y = - ( ( event.clientY - this.mount.offsetTop ) / this.mount.clientHeight ) * 2 + 1;
+    }
+
     renderItems() {
+        console.log(this.props.itemDimensions);
+
         this.containerGeometry.dispose();
         this.containerEdges.dispose();
 
