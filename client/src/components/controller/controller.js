@@ -16,8 +16,8 @@ class Controller extends React.Component {
         this.props.onBinStateUpdate({ target });
     }
 
-    packItems() {
-        this.props.packItems();
+    packItemsAndUpdateItemState() {
+        this.props.packItemsAndUpdateItemState(this.state.itemDimensions);
     }
 
     addItemBlock() {
@@ -60,7 +60,7 @@ class Controller extends React.Component {
                         <Item itemDetails={itemDetails} key={itemDetails.itemId} index={index} updateItemDetails={this.updateItemDetails.bind(this)}/>
                     ))
                 }
-                <button className="btn btn-primary" onClick={this.packItems.bind(this)}>Pack</button>
+                <button className="btn btn-primary" onClick={this.packItemsAndUpdateItemState.bind(this)}>Pack</button>
             </div>
         );
     }

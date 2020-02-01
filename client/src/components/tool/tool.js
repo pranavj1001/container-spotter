@@ -30,6 +30,15 @@ class Tool extends React.Component {
         });
     }
 
+    packItemsAndUpdateItemState(itemDimensions) {
+        this.setState((previousState) => { 
+            return {
+                binDimensions: previousState.binDimensions,
+                itemDimensions: itemDimensions
+            }
+        }, () => {this.packItems()});
+    }
+
     packItems() {
         this.visualizerRef.current.renderItems();
     }
@@ -42,6 +51,7 @@ class Tool extends React.Component {
                         binDimensions={this.state.binDimensions} 
                         itemDimensions={this.state.itemDimensions} 
                         onBinStateUpdate={this.onBinStateUpdate.bind(this)}
+                        packItemsAndUpdateItemState={this.packItemsAndUpdateItemState.bind(this)}
                         packItems={this.packItems.bind(this)}
                     />
                 </div>
