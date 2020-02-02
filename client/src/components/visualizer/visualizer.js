@@ -35,6 +35,12 @@ class Visualizer extends Component {
 
         // scene
         this.scene = '';
+
+        // items
+        this.binObject = '';
+        this.cubes = [];
+        this.packedItems = [];
+        this.notPackedItems = [];
     }
 
     componentDidMount() {
@@ -82,11 +88,11 @@ class Visualizer extends Component {
         this.containerCube = new THREE.Mesh( this.containerGeometry, this.containerMaterial );
 
         //create a Object3D and add the two cubes
-        let binObject = new THREE.Object3D();
-        binObject.add(this.containerCube);
-        binObject.add(this.containerLine);
+        this.binObject = new THREE.Object3D();
+        this.binObject.add(this.containerCube);
+        this.binObject.add(this.containerLine);
 
-        this.scene.add(binObject);
+        this.scene.add(this.binObject);
 
         this.raycaster = new THREE.Raycaster();
         this.mouse = new THREE.Vector2();
@@ -189,6 +195,8 @@ class Visualizer extends Component {
         var newContainerEdges = new THREE.EdgesGeometry( newContainerGeometry );
         this.containerCube.geometry = newContainerGeometry;
         this.containerLine.geometry = newContainerEdges;
+
+        
     }
 
     render() {
