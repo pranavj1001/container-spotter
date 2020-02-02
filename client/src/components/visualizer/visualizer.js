@@ -39,8 +39,18 @@ class Visualizer extends Component {
         // items
         this.binObject = '';
         this.cubes = [];
+        this.listOfItems = [];
         this.packedItems = [];
         this.notPackedItems = [];
+        this.totalItemsVolume = 0;
+
+        // pivots
+        this.pivots = [{
+            xCoordinate: 0,
+            yCoordinate: 0,
+            zCoordinate: 0,
+            origin: true
+        }];
     }
 
     componentDidMount() {
@@ -166,7 +176,67 @@ class Visualizer extends Component {
         animate();
     }
 
+    renderBin() {
+        this.containerGeometry.dispose();
+        this.containerEdges.dispose();
+
+        this.binContainerLength = this.props.binDimensions.binLength === '' || this.props.binDimensions.binLength === 0 ? 20 : this.props.binDimensions.binLength;
+        this.binContainerHeight = this.props.binDimensions.binHeight === '' || this.props.binDimensions.binHeight === 0 ? 10 : this.props.binDimensions.binHeight;
+        this.binContainerWidth = this.props.binDimensions.binWidth === '' || this.props.binDimensions.binWidth === 0 ? 10 : this.props.binDimensions.binWidth;
+
+        var newContainerGeometry = new THREE.BoxGeometry( this.binContainerLength, this.binContainerHeight, this.binContainerWidth );
+        var newContainerEdges = new THREE.EdgesGeometry( newContainerGeometry );
+        this.containerCube.geometry = newContainerGeometry;
+        this.containerLine.geometry = newContainerEdges;
+    }
+
+    resetItems() {
+        if (this.cubes.length > 0) {
+            for (const cube of this.cubes) {
+                let counter = 0;
+                for (const item of this.binObject.children) {
+                    if (cube.uuid === item.uuid) {
+                        this.binObject.children.splice(counter, 1);
+                        break;
+                    }
+                    counter++;
+                }
+            }
     
+            this.cubes = [];
+            this.listOfItems = [];
+            this.packedItems = [];
+            this.notPackedItems = [];
+            this.totalItemsVolume = 0;
+    
+            this.pivots = [{
+                xCoordinate: 0,
+                yCoordinate: 0,
+                zCoordinate: 0,
+                origin: true
+            }];
+        }
+    }
+
+    prepareListOfItems(data) {
+        for (let item of data) {
+            item = JSON.parse(JSON.stringify(item));
+            item.volume = item.itemLength * item.itemWidth * item.itemHeight;
+            this.totalItemsVolume += item.volume * item.itemQuantity;
+            for (let i = 0; i < item.itemQuantity; i++) {
+                this.listOfItems.push(item);
+            }
+        }
+        this.listOfItems.sort((a, b) => (a.volume > b.volume) ? -1 : ((a.volume < b.volume) ? 1 : 0));
+    }
+
+    packItems() {
+        console.log(this.listOfItems);
+    }
+
+    addAndRenderItems() {
+
+    }
 
     onWindowResize() {
         this.camera.aspect = this.mount.offsetWidth / this.mount.offsetHeight;
@@ -181,22 +251,24 @@ class Visualizer extends Component {
         this.mouse.y = - ( ( event.clientY - this.mount.offsetTop ) / this.mount.clientHeight ) * 2 + 1;
     }
 
+    validateAllInputs() {
+        // TODO: add function to validate all inputs
+        return true;
+    }
+
     renderItems() {
         console.log(this.props.itemDimensions);
 
-        this.containerGeometry.dispose();
-        this.containerEdges.dispose();
+        if (this.validateAllInputs()) {
+            this.renderBin();
+            this.resetItems();
+            this.prepareListOfItems(this.props.itemDimensions);
+            this.packItems();
+            this.addAndRenderItems();
+        } else {
+            // TODO: handle invalid inputs here
+        }
 
-        this.binContainerLength = this.props.binDimensions.binLength === '' || this.props.binDimensions.binLength === 0 ? 20 : this.props.binDimensions.binLength;
-        this.binContainerHeight = this.props.binDimensions.binHeight === '' || this.props.binDimensions.binHeight === 0 ? 10 : this.props.binDimensions.binHeight;
-        this.binContainerWidth = this.props.binDimensions.binWidth === '' || this.props.binDimensions.binWidth === 0 ? 10 : this.props.binDimensions.binWidth;
-
-        var newContainerGeometry = new THREE.BoxGeometry( this.binContainerLength, this.binContainerHeight, this.binContainerWidth );
-        var newContainerEdges = new THREE.EdgesGeometry( newContainerGeometry );
-        this.containerCube.geometry = newContainerGeometry;
-        this.containerLine.geometry = newContainerEdges;
-
-        
     }
 
     render() {
