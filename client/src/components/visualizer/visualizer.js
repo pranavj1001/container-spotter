@@ -230,14 +230,6 @@ class Visualizer extends Component {
         this.listOfItems.sort((a, b) => (a.volume > b.volume) ? -1 : ((a.volume < b.volume) ? 1 : 0));
     }
 
-    packItems() {
-        console.log(this.listOfItems);
-    }
-
-    addAndRenderItems() {
-        console.log('Add and Render Items');
-    }
-
     // ------------------------------------------------------ //
     // Pack Item Helper Functions Start
     checkIfCurrentItemIsInsideAPackedItem() {
@@ -261,6 +253,14 @@ class Visualizer extends Component {
     }
     // Pack Item Helper Functions End
     // ------------------------------------------------------ //
+
+    packItems() {
+        console.log(this.listOfItems);
+    }
+
+    addAndRenderItems() {
+        console.log('Add and Render Items');
+    }
 
     onWindowResize() {
         this.camera.aspect = this.mount.offsetWidth / this.mount.offsetHeight;
