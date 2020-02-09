@@ -235,8 +235,32 @@ class Visualizer extends Component {
     }
 
     addAndRenderItems() {
+        console.log('Add and Render Items');
+    }
+
+    // ------------------------------------------------------ //
+    // Pack Item Helper Functions Start
+    checkIfCurrentItemIsInsideAPackedItem() {
 
     }
+
+    calculateMaxPossibleDimensions() {
+
+    }
+
+    removePivotsInSameLine() {
+
+    }
+
+    isPointInsideACuboid() {
+        
+    }
+
+    doesItemFit() {
+
+    }
+    // Pack Item Helper Functions End
+    // ------------------------------------------------------ //
 
     onWindowResize() {
         this.camera.aspect = this.mount.offsetWidth / this.mount.offsetHeight;
