@@ -1,5 +1,6 @@
 # Container Spotter
 
+WIP
 
 ### Aim
 The aim of the project is to find a way to fit the maximum amount of boxes possible in a single bin or container visually.
