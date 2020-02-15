@@ -256,6 +256,71 @@ class Visualizer extends Component {
 
     packItems() {
         console.log(this.listOfItems);
+        for (let item of this.listOfItems) {
+            item = JSON.parse(JSON.stringify(item));
+            let itemNotPacked = true;
+            let counter = 0;
+            for (const pivot of this.pivots) {
+                if (this.doesItemFit(pivot, item, this.pivots)) {
+                    item.pivotPosition = pivot;
+                    this.packedItems.push(item);
+                    itemNotPacked = false;
+                    let newPivot = {};
+    
+                    // TODO: fine tune pivot adding logic more
+                    newPivot = {
+                        xCoordinate: pivot.xCoordinate + 0.01,
+                        yCoordinate: pivot.yCoordinate - 0.01,
+                        zCoordinate: pivot.zCoordinate + item.height + 0.01
+                    };
+                    if (this.isPointInsideACuboid(newPivot)) {
+                        this.pivots.push({
+                            xCoordinate: pivot.xCoordinate,
+                            yCoordinate: pivot.yCoordinate,
+                            zCoordinate: pivot.zCoordinate + item.height,
+                            origin: false
+                        });
+                    }
+    
+                    newPivot = {
+                        xCoordinate: pivot.xCoordinate + 0.01,
+                        yCoordinate: pivot.yCoordinate + item.breadth + 0.01,
+                        zCoordinate: pivot.zCoordinate + 0.01
+                    }
+                    if (!this.isPointInsideACuboid(newPivot)) {
+                        this.pivots.push({
+                            xCoordinate: pivot.xCoordinate,
+                            yCoordinate: pivot.yCoordinate + item.breadth,
+                            zCoordinate: pivot.zCoordinate,
+                            origin: false
+                        });
+                    }
+    
+                    newPivot = {
+                        xCoordinate: pivot.xCoordinate + item.length + 0.01,
+                        yCoordinate: pivot.yCoordinate - 0.01,
+                        zCoordinate: pivot.zCoordinate + 0.01
+                    };
+                    if (this.isPointInsideACuboid(newPivot)) {
+                        this.pivots.push({
+                            xCoordinate: pivot.xCoordinate + item.length,
+                            yCoordinate: pivot.yCoordinate,
+                            zCoordinate: pivot.zCoordinate,
+                            origin: false
+                        });
+                    }
+    
+                    this.pivots.splice(counter, 1);
+                    this.removePivotsInSameLine(this.pivots);
+                    break;
+                }
+                counter++;
+            }
+        
+            if (itemNotPacked) {
+                this.notPackedItems.push(item);
+            }
+        }
     }
 
     addAndRenderItems() {
