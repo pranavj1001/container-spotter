@@ -236,8 +236,40 @@ class Visualizer extends Component {
 
     }
 
-    calculateMaxPossibleDimensions() {
+    calculateMaxPossibleDimensions(currentPivot, pivots) {
+        // TODO: Improve this function to check for pivots which are not in the same line also
+        const maxDimensionsPossible = {
+            length: this.binContainerLength,
+            breadth: this.binContainerWidth,
+            height: this.binContainerHeight
+        };
+        for (const pivot of pivots) {
+            if (!(pivot.xCoordinate === currentPivot.xCoordinate &&
+                pivot.yCoordinate === currentPivot.yCoordinate &&
+                pivot.zCoordinate === currentPivot.zCoordinate)) {
 
+                    if (pivot.xCoordinate === currentPivot.xCoordinate &&
+                        pivot.yCoordinate > currentPivot.yCoordinate &&
+                        pivot.zCoordinate > currentPivot.zCoordinate) {
+                            maxDimensionsPossible.height = pivot.zCoordinate - currentPivot.zCoordinate;
+                    } 
+                    else if 
+                        (pivot.yCoordinate === currentPivot.yCoordinate &&
+                        pivot.zCoordinate > currentPivot.zCoordinate &&
+                        pivot.xCoordinate > currentPivot.xCoordinate) {
+                            maxDimensionsPossible.breadth = pivot.yCoordinate - currentPivot.yCoordinate;
+                    } 
+                    else if 
+                        (pivot.zCoordinate === currentPivot.zCoordinate &&
+                        pivot.yCoordinate > currentPivot.yCoordinate &&
+                        pivot.xCoordinate > currentPivot.xCoordinate) {
+                            maxDimensionsPossible.length = pivot.xCoordinate - currentPivot.xCoordinate;
+                    }
+
+                }
+        }
+
+        return maxDimensionsPossible;
     }
 
     removePivotsInSameLine() {
@@ -271,7 +303,6 @@ class Visualizer extends Component {
     // ------------------------------------------------------ //
 
     packItems() {
-        console.log(this.listOfItems);
         for (let item of this.listOfItems) {
             item = JSON.parse(JSON.stringify(item));
             let itemNotPacked = true;
@@ -362,7 +393,6 @@ class Visualizer extends Component {
     }
 
     renderItems() {
-        console.log(this.props.itemDimensions);
 
         if (this.validateAllInputs()) {
             this.renderBin();
