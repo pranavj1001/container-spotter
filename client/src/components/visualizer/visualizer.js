@@ -248,8 +248,24 @@ class Visualizer extends Component {
         
     }
 
-    doesItemFit() {
-
+    doesItemFit(pivot, item, pivots) {
+        // TODO P3: perform item rotations
+        const maxDimensionsPossible = this.calculateMaxPossibleDimensions(pivot, pivots);
+        const maxLength = maxDimensionsPossible.length;
+        const maxBreadth = maxDimensionsPossible.breadth;
+        const maxHeight = maxDimensionsPossible.height;
+        if (!this.checkIfCurrentItemIsInsideAPackedItem(item, pivot)) {
+            if (item.length + pivot.xCoordinate > maxLength ||
+                item.breadth + pivot.yCoordinate > maxBreadth ||
+                item.height + pivot.zCoordinate > maxHeight
+                ) {
+                    return false;
+                } else {
+                    return true;   
+                }
+        } else {
+            return false;
+        }
     }
     // Pack Item Helper Functions End
     // ------------------------------------------------------ //
