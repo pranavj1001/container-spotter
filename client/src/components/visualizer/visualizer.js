@@ -471,7 +471,21 @@ class Visualizer extends Component {
     }
 
     addAndRenderItems() {
-        console.log('Add and Render Items');
+        // render boxes as per spotting logic
+        for (const item of this.packedItems) {
+            const itemGeometry = new THREE.BoxGeometry( item.length, item.breadth, item.height );
+            itemGeometry.translate(
+                (item.length - this.binContainerLength) / 2,
+                (item.breadth - this.binContainerHeight) / 2,
+                (item.height - this.binContainerWidth) / 2
+            );
+            const itemMaterial = new THREE.MeshLambertMaterial( { color: item.color } );
+            const itemCube = new THREE.Mesh( itemGeometry, itemMaterial );
+            const itemPivot = item.pivotPosition;
+            itemCube.position.set(itemPivot.xCoordinate, itemPivot.yCoordinate, itemPivot.zCoordinate);
+            this.binObject.add(itemCube);
+            this.cubes.push(itemCube);
+        }
     }
 
     onWindowResize() {
