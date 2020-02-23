@@ -221,7 +221,7 @@ class Visualizer extends Component {
     prepareListOfItems(data) {
         for (let item of data) {
             item = JSON.parse(JSON.stringify(item));
-            item.volume = item.itemLength * item.itemWidth * item.itemHeight;
+            item.volume = item.itemLength * item.itemHeight * item.itemWidth;
             this.totalItemsVolume += item.volume * item.itemQuantity;
             for (let i = 0; i < item.itemQuantity; i++) {
                 this.listOfItems.push(item);
@@ -236,53 +236,53 @@ class Visualizer extends Component {
         // check cuboid top 2 points only since we are 
         const point = {
             xCoordinate: pivot.xCoordinate,
-            yCoordinate: pivot.yCoordinate + item.breadth,
+            yCoordinate: pivot.yCoordinate + item.itemHeight,
             zCoordinate: pivot.zCoordinate,
-            z2Coordinate: pivot.zCoordinate + item.height
+            z2Coordinate: pivot.zCoordinate + item.itemWidth
         };
 
         for (const packedItem of this.packedItems) {
             // if the points lie inside the packedItem
             if (
-                ((packedItem.length + packedItem.pivotPosition.xCoordinate) > point.xCoordinate && point.xCoordinate > packedItem.pivotPosition.xCoordinate) &&
-                ((packedItem.breadth + packedItem.pivotPosition.yCoordinate) > point.yCoordinate && point.yCoordinate > packedItem.pivotPosition.yCoordinate) &&
+                ((packedItem.itemLength + packedItem.pivotPosition.xCoordinate) > point.xCoordinate && point.xCoordinate > packedItem.pivotPosition.xCoordinate) &&
+                ((packedItem.itemHeight + packedItem.pivotPosition.yCoordinate) > point.yCoordinate && point.yCoordinate > packedItem.pivotPosition.yCoordinate) &&
                 (
-                    ((packedItem.height + packedItem.pivotPosition.zCoordinate) > point.zCoordinate && point.zCoordinate > packedItem.pivotPosition.zCoordinate) ||
-                    ((packedItem.height + packedItem.pivotPosition.zCoordinate) > point.z2Coordinate && point.z2Coordinate > packedItem.pivotPosition.zCoordinate)
+                    ((packedItem.itemWidth + packedItem.pivotPosition.zCoordinate) > point.zCoordinate && point.zCoordinate > packedItem.pivotPosition.zCoordinate) ||
+                    ((packedItem.itemWidth + packedItem.pivotPosition.zCoordinate) > point.z2Coordinate && point.z2Coordinate > packedItem.pivotPosition.zCoordinate)
                 )
             ) {
                 return true;
             }
 
-            // if item about to be packed ends at the same length like packedItem
+            // if item about to be packed ends at the same itemLength like packedItem
             if (
                 point.xCoordinate === packedItem.pivotPosition.xCoordinate &&
-                ((packedItem.breadth + packedItem.pivotPosition.yCoordinate) > point.yCoordinate && point.yCoordinate > packedItem.pivotPosition.yCoordinate) &&
+                ((packedItem.itemHeight + packedItem.pivotPosition.yCoordinate) > point.yCoordinate && point.yCoordinate > packedItem.pivotPosition.yCoordinate) &&
                 (
-                    ((packedItem.height + packedItem.pivotPosition.zCoordinate) > point.zCoordinate && point.zCoordinate > packedItem.pivotPosition.zCoordinate) ||
-                    ((packedItem.height + packedItem.pivotPosition.zCoordinate) > point.z2Coordinate && point.z2Coordinate > packedItem.pivotPosition.zCoordinate)
+                    ((packedItem.itemWidth + packedItem.pivotPosition.zCoordinate) > point.zCoordinate && point.zCoordinate > packedItem.pivotPosition.zCoordinate) ||
+                    ((packedItem.itemWidth + packedItem.pivotPosition.zCoordinate) > point.z2Coordinate && point.z2Coordinate > packedItem.pivotPosition.zCoordinate)
                 )
             ) {
                 return true;
             }
 
-            // if item about to be packed ends at the same height like packedItem
+            // if item about to be packed ends at the same itemWidth like packedItem
             if (
-                point.yCoordinate === (packedItem.breadth + packedItem.pivotPosition.yCoordinate) &&
-                ((packedItem.length + packedItem.pivotPosition.xCoordinate) > point.xCoordinate && point.xCoordinate > packedItem.pivotPosition.xCoordinate) &&
+                point.yCoordinate === (packedItem.itemHeight + packedItem.pivotPosition.yCoordinate) &&
+                ((packedItem.itemLength + packedItem.pivotPosition.xCoordinate) > point.xCoordinate && point.xCoordinate > packedItem.pivotPosition.xCoordinate) &&
                 (
-                    ((packedItem.height + packedItem.pivotPosition.zCoordinate) > point.zCoordinate && point.zCoordinate > packedItem.pivotPosition.zCoordinate) ||
-                    ((packedItem.height + packedItem.pivotPosition.zCoordinate) > point.z2Coordinate && point.z2Coordinate > packedItem.pivotPosition.zCoordinate)
+                    ((packedItem.itemWidth + packedItem.pivotPosition.zCoordinate) > point.zCoordinate && point.zCoordinate > packedItem.pivotPosition.zCoordinate) ||
+                    ((packedItem.itemWidth + packedItem.pivotPosition.zCoordinate) > point.z2Coordinate && point.z2Coordinate > packedItem.pivotPosition.zCoordinate)
                 )
             ) {
                 return true;
             }
 
-            // if item about to be packed ends at the same breadth like packedItem
+            // if item about to be packed ends at the same itemHeight like packedItem
             if (
-                (point.zCoordinate === packedItem.pivotPosition.zCoordinate && point.z2Coordinate  === (packedItem.height + packedItem.pivotPosition.zCoordinate)) &&
-                ((packedItem.length + packedItem.pivotPosition.xCoordinate) > point.xCoordinate && point.xCoordinate > packedItem.pivotPosition.xCoordinate) &&
-                ((packedItem.breadth + packedItem.pivotPosition.yCoordinate) > point.yCoordinate && point.yCoordinate > packedItem.pivotPosition.yCoordinate)
+                (point.zCoordinate === packedItem.pivotPosition.zCoordinate && point.z2Coordinate  === (packedItem.itemWidth + packedItem.pivotPosition.zCoordinate)) &&
+                ((packedItem.itemLength + packedItem.pivotPosition.xCoordinate) > point.xCoordinate && point.xCoordinate > packedItem.pivotPosition.xCoordinate) &&
+                ((packedItem.itemHeight + packedItem.pivotPosition.yCoordinate) > point.yCoordinate && point.yCoordinate > packedItem.pivotPosition.yCoordinate)
                 
             ) {
                 return true;
@@ -369,9 +369,9 @@ class Visualizer extends Component {
     
         for (const packedItem of this.packedItems) {
             if (
-                ((packedItem.length + packedItem.pivotPosition.xCoordinate) > point.xCoordinate && point.xCoordinate > packedItem.pivotPosition.xCoordinate) &&
-                ((packedItem.breadth + packedItem.pivotPosition.yCoordinate) > point.yCoordinate && point.yCoordinate > packedItem.pivotPosition.yCoordinate) &&
-                ((packedItem.height + packedItem.pivotPosition.zCoordinate) > point.zCoordinate && point.zCoordinate > packedItem.pivotPosition.zCoordinate)
+                ((packedItem.itemLength + packedItem.pivotPosition.xCoordinate) > point.xCoordinate && point.xCoordinate > packedItem.pivotPosition.xCoordinate) &&
+                ((packedItem.itemHeight + packedItem.pivotPosition.yCoordinate) > point.yCoordinate && point.yCoordinate > packedItem.pivotPosition.yCoordinate) &&
+                ((packedItem.itemWidth + packedItem.pivotPosition.zCoordinate) > point.zCoordinate && point.zCoordinate > packedItem.pivotPosition.zCoordinate)
             ) {
                 return true;
             }
@@ -387,9 +387,9 @@ class Visualizer extends Component {
         const maxBreadth = maxDimensionsPossible.breadth;
         const maxHeight = maxDimensionsPossible.height;
         if (!this.checkIfCurrentItemIsInsideAPackedItem(item, pivot)) {
-            if (item.length + pivot.xCoordinate > maxLength ||
-                item.breadth + pivot.yCoordinate > maxBreadth ||
-                item.height + pivot.zCoordinate > maxHeight
+            if (item.itemLength + pivot.xCoordinate > maxLength ||
+                item.itemHeight + pivot.yCoordinate > maxBreadth ||
+                item.itemWidth + pivot.zCoordinate > maxHeight
                 ) {
                     return false;
                 } else {
@@ -418,39 +418,39 @@ class Visualizer extends Component {
                     newPivot = {
                         xCoordinate: pivot.xCoordinate + 0.01,
                         yCoordinate: pivot.yCoordinate - 0.01,
-                        zCoordinate: pivot.zCoordinate + item.height + 0.01
+                        zCoordinate: pivot.zCoordinate + item.itemWidth + 0.01
                     };
                     if (this.isPointInsideACuboid(newPivot)) {
                         this.pivots.push({
                             xCoordinate: pivot.xCoordinate,
                             yCoordinate: pivot.yCoordinate,
-                            zCoordinate: pivot.zCoordinate + item.height,
+                            zCoordinate: pivot.zCoordinate + item.itemWidth,
                             origin: false
                         });
                     }
     
                     newPivot = {
                         xCoordinate: pivot.xCoordinate + 0.01,
-                        yCoordinate: pivot.yCoordinate + item.breadth + 0.01,
+                        yCoordinate: pivot.yCoordinate + item.itemHeight + 0.01,
                         zCoordinate: pivot.zCoordinate + 0.01
                     }
                     if (!this.isPointInsideACuboid(newPivot)) {
                         this.pivots.push({
                             xCoordinate: pivot.xCoordinate,
-                            yCoordinate: pivot.yCoordinate + item.breadth,
+                            yCoordinate: pivot.yCoordinate + item.itemHeight,
                             zCoordinate: pivot.zCoordinate,
                             origin: false
                         });
                     }
     
                     newPivot = {
-                        xCoordinate: pivot.xCoordinate + item.length + 0.01,
+                        xCoordinate: pivot.xCoordinate + item.itemLength + 0.01,
                         yCoordinate: pivot.yCoordinate - 0.01,
                         zCoordinate: pivot.zCoordinate + 0.01
                     };
                     if (this.isPointInsideACuboid(newPivot)) {
                         this.pivots.push({
-                            xCoordinate: pivot.xCoordinate + item.length,
+                            xCoordinate: pivot.xCoordinate + item.itemLength,
                             yCoordinate: pivot.yCoordinate,
                             zCoordinate: pivot.zCoordinate,
                             origin: false
@@ -473,13 +473,13 @@ class Visualizer extends Component {
     addAndRenderItems() {
         // render boxes as per spotting logic
         for (const item of this.packedItems) {
-            const itemGeometry = new THREE.BoxGeometry( item.length, item.breadth, item.height );
+            const itemGeometry = new THREE.BoxGeometry( item.itemLength, item.itemHeight, item.itemWidth);
             itemGeometry.translate(
-                (item.length - this.binContainerLength) / 2,
-                (item.breadth - this.binContainerHeight) / 2,
-                (item.height - this.binContainerWidth) / 2
+                (item.itemLength - this.binContainerLength) / 2,
+                (item.itemHeight - this.binContainerHeight) / 2,
+                (item.itemWidth - this.binContainerWidth) / 2
             );
-            const itemMaterial = new THREE.MeshLambertMaterial( { color: item.color } );
+            const itemMaterial = new THREE.MeshLambertMaterial( { color: 0xffff00 } );
             const itemCube = new THREE.Mesh( itemGeometry, itemMaterial );
             const itemPivot = item.pivotPosition;
             itemCube.position.set(itemPivot.xCoordinate, itemPivot.yCoordinate, itemPivot.zCoordinate);
