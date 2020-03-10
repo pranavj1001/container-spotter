@@ -127,21 +127,8 @@ class Visualizer extends Component {
         this.controls.maxDistance = 40;
         this.controls.maxPolarAngle = Math.PI / 2;
 
-        // let handleClickEvents = (event) => {
-        //     var element = event.target || event.srcElement
-        //     if (element !== this.renderer.domElement) {
-        //         event.stopPropagation();
-        //         event.preventDefault();
-        //         if (element.tagName === 'INPUT') {
-        //             element.focus();
-        //         } else {
-        //             document.activeElement.blur();
-        //         }
-        //     }
-        // };
-
-        window.addEventListener( 'resize', this.onWindowResize(), false );
-        // document.getElementById('controller').addEventListener( 'mousedown', handleClickEvents, false );
+        window.addEventListener( 'resize', this.onWindowResize.bind(this), false );
+        document.getElementById('controller').addEventListener( 'mousedown', this.handleClickEvents.bind(this), false );
         this.mount.addEventListener( 'mousemove', this.onMouseMove.bind(this), false );
 
         let animate = () => {
@@ -493,6 +480,19 @@ class Visualizer extends Component {
         this.camera.updateProjectionMatrix();
         this.renderer.setSize( this.mount.offsetWidth, this.mount.offsetHeight );
     }
+
+    handleClickEvents(event) {
+        var element = event.target || event.srcElement;
+        if (element !== this.renderer.domElement) {
+            event.stopPropagation();
+            event.preventDefault();
+            if (element.tagName === 'INPUT') {
+                element.focus();
+            } else {
+                document.activeElement.blur();
+            }
+        }
+    };
 
     onMouseMove(event) {
         // calculate this.mouse position in normalized device coordinates

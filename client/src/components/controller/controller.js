@@ -43,7 +43,7 @@ class Controller extends React.Component {
 
     render() {
         return (
-            <div className="container-spotter-content-div">
+            <div className="container-spotter-content-div" id="controller">
                 <h3>Container Spotter</h3>
                 <hr className="container-spotter-basic-hr" />
                 <Bin 
