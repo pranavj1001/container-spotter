@@ -1,19 +1,17 @@
 # Container Spotter
 
 
-### Aim
+## Aim
 The aim of the project is to find a way to fit the maximum amount of boxes possible in a single bin or container visually.
 
-### How to get started?
-
-### Technologies used
+## Technologies used
 
 1. Docker
 1. React
 1. AWS
 1. Travis CI
 
-### What's developed / What's still in development
+## What's developed / What's still in development
 
 1. ~~Develop Core Algorithm~~
 1. ~~Develop lite version of app in simple html with static data~~
@@ -28,7 +26,7 @@ The aim of the project is to find a way to fit the maximum amount of boxes possi
 
 Apart from the above mentioned things, I'll also be working on further refining the core algorithm.
 
-### Working Example
+## Working Example
 
 The application was hosted on AWS. However, that costs money. So I'll host a *lite* version of the project on my [github.io](https://pranavj1001.github.io)
 
@@ -41,10 +39,10 @@ Also, if you want to run the project on your machine then please follow the step
 
 Some screenshots of the application are attached below
 
-### Queries?
+## Queries?
 
 email me at pranavj1001@gmail.com
 
-### License
+## License
 
 MIT License
