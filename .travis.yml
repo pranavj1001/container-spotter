@@ -1,0 +1,38 @@
+sudo: required
+services: 
+  - docker
+
+# build test images
+before_install:
+  - docker build -t pranavj1001/container-spotter-client-test -f ./client/dev.Dockerfile ./client
+
+# run tests
+script:
+  - docker run -e CI=true pranavj1001/container-spotter-client-test npm test
+
+after_success:
+  # build production images
+  - docker build -t pranavj1001/container-spotter-client ./client
+  - docker build -t pranavj1001/container-spotter-server ./server
+  - docker build -t pranavj1001/container-spotter-worker ./worker
+  - docker build -t pranavj1001/container-spotter-nginx ./nginx
+  # Log in to DOCKER CLI
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  # push production images to docker hub
+  - docker push pranavj1001/container-spotter-client
+  - docker push pranavj1001/container-spotter-server
+  - docker push pranavj1001/container-spotter-worker
+  - docker push pranavj1001/container-spotter-nginx
+
+deploy:
+  provider: elasticbeanstalk
+  region: ap-south-1
+  app: container-spotter
+  env: container-spotter-env
+  bucket_name: elasticbeanstalk-ap-south-1-087431259218
+  bucket_path: container-spotter
+  on:
+    branch: master
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key:
+    secure: $AWS_SECRET_KEY
