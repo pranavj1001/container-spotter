@@ -7,7 +7,7 @@ import Home from './components/home/home';
 function App() {
   return (
     <Router>
-      <div>
+      <React.Fragment>
         <Switch>
           <Route exact path="/">
             <Home />
@@ -16,7 +16,7 @@ function App() {
             <Tool />
           </Route>
         </Switch>
-      </div>
+      </React.Fragment>
     </Router>
   );
 }
