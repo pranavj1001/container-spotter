@@ -46,7 +46,7 @@ class Tool extends React.Component {
     render() {
         return (
             <div className="row">
-                <div id="controller" className="col-md-3 container-spotter-no-padding-div container container-spotter-left-div">
+                <div id="controller" className="col-md-3 container-spotter-left-div">
                     <Controller 
                         binDimensions={this.state.binDimensions} 
                         itemDimensions={this.state.itemDimensions} 
@@ -55,7 +55,7 @@ class Tool extends React.Component {
                         packItems={this.packItems.bind(this)}
                     />
                 </div>
-                <div id="view" className="col-md-9 container-spotter-no-padding-div container-spotter-right-div">
+                <div id="view" className="col-md-9 container-spotter-right-div">
                     <Visualizer 
                         ref={this.visualizerRef}
                         binDimensions={this.state.binDimensions}

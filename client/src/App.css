@@ -89,5 +89,6 @@ canvas { width: 100%; height: 100% }
     .container-spotter-left-div {
         overflow-y: auto;
         height: 750px;
+        padding-left: 30px;
     }
 }
