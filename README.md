@@ -43,7 +43,7 @@ Some screenshots of the application are attached below
 
 <img src="Media/container-spotter-ss.png">
 
-<video src="Media/container-spotter-hd.gif">
+<img src="Media/container-spotter-hd.gif">
 
 ## Queries?
 
