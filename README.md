@@ -37,7 +37,13 @@ Also, if you want to run the project on your machine then please follow the step
 1. Open Terminal, go to root folder of this repo and type
 ```docker-compose up --build```
 
+**Note**: The above mentioned guide has been tried and tested on mac. However, the same guide should also work on windows machines.
+
 Some screenshots of the application are attached below
+
+<img src="Media/container-spotter-ss.png">
+
+<video src="Media/container-spotter-hd.gif">
 
 ## Queries?
 
