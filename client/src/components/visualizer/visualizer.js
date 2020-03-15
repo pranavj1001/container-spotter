@@ -466,7 +466,7 @@ class Visualizer extends Component {
                 (item.itemHeight - this.binContainerHeight) / 2,
                 (item.itemWidth - this.binContainerWidth) / 2
             );
-            const itemMaterial = new THREE.MeshLambertMaterial( { color: 0xffff00 } );
+            const itemMaterial = new THREE.MeshLambertMaterial( { color: parseInt(item.itemColor, 16) } );
             const itemCube = new THREE.Mesh( itemGeometry, itemMaterial );
             const itemPivot = item.pivotPosition;
             itemCube.position.set(itemPivot.xCoordinate, itemPivot.yCoordinate, itemPivot.zCoordinate);
